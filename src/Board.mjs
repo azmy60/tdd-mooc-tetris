@@ -9,6 +9,7 @@ function hashToXY(str) {
 export class Board {
   width;
   height;
+  isBlockFalling = false;
 
   constructor(width, height) {
     this.width = width;
@@ -17,8 +18,13 @@ export class Board {
   }
 
   drop(block) {
+    if (this.isBlockFalling) {
+      throw Error("already falling");
+    }
+
     // drops from the top middle
     this.blocks[getPosHash(Math.floor(this.width / 2), 0)] = block;
+    this.isBlockFalling = true;
   }
 
   tick() {
