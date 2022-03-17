@@ -2,6 +2,10 @@ function getPosHash(x, y) {
   return `${x}|${y}`;
 }
 
+function hashToXY(str) {
+  return str.split("|").map((n) => Number(n));
+}
+
 export class Board {
   width;
   height;
@@ -15,6 +19,14 @@ export class Board {
   drop(block) {
     // drops from the top middle
     this.blocks[getPosHash(Math.floor(this.width / 2), 0)] = block;
+  }
+
+  tick() {
+    for (const hash in this.blocks) {
+      const [x, y] = hashToXY(hash);
+      this.blocks[getPosHash(x, y + 1)] = this.blocks[hash];
+      delete this.blocks[hash];
+    }
   }
 
   toString() {
