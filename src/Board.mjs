@@ -40,7 +40,7 @@ export class Board {
         continue;
       }
 
-      if (y === this.height - 1) {
+      if (y === this.height - 1 || this.blocks[stringifyPosition(x, y + 1)]) {
         this.falling = block.setFalling(false);
         continue; // block hits the bottom
       }
