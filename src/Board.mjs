@@ -34,8 +34,14 @@ export class Board {
   tick() {
     for (const hash in this.blocks) {
       const [x, y] = parsePosition(hash);
+      const block = this.blocks[hash];
+
+      if (!block.falling) {
+        continue;
+      }
+
       if (y === this.height - 1) {
-        this.falling = false;
+        this.falling = block.setFalling(false);
         continue; // block hits the bottom
       }
 
