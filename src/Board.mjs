@@ -1,15 +1,15 @@
-function getPosHash(x, y) {
+function stringifyPosition(x, y) {
   return `${x}|${y}`;
 }
 
-function hashToXY(str) {
+function parsePosition(str) {
   return str.split("|").map((n) => Number(n));
 }
 
 export class Board {
   width;
   height;
-  isBlockFalling = false;
+  falling = false;
 
   constructor(width, height) {
     this.width = width;
@@ -18,36 +18,45 @@ export class Board {
   }
 
   hasFalling() {
-    return this.isBlockFalling;
+    return this.falling;
   }
 
   drop(block) {
-    if (this.isBlockFalling) {
+    if (this.falling) {
       throw Error("already falling");
     }
 
     // drops from the top middle
-    this.blocks[getPosHash(Math.floor(this.width / 2), 0)] = block;
-    this.isBlockFalling = true;
+    this.setBlockPosition(block, Math.floor(this.width / 2), 0);
+    this.falling = true;
   }
 
   tick() {
     for (const hash in this.blocks) {
-      const [x, y] = hashToXY(hash);
+      const [x, y] = parsePosition(hash);
       if (y === this.height - 1) {
-        this.isBlockFalling = false;
+        this.falling = false;
         continue; // block hits the bottom
       }
-      this.blocks[getPosHash(x, y + 1)] = this.blocks[hash];
-      delete this.blocks[hash];
+
+      this.moveBlockTo(hash, x, y + 1);
     }
+  }
+
+  moveBlockTo(hash, x, y) {
+    this.setBlockPosition(this.blocks[hash], x, y);
+    delete this.blocks[hash];
+  }
+
+  setBlockPosition(block, x, y) {
+    this.blocks[stringifyPosition(x, y)] = block;
   }
 
   toString() {
     let str = "";
     for (let y = 0; y < this.height; y++) {
       for (let x = 0; x < this.width; x++) {
-        str += this.blocks[getPosHash(x, y)] ?? ".";
+        str += this.blocks[stringifyPosition(x, y)] ?? ".";
       }
       str += "\n";
     }
