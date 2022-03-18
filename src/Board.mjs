@@ -17,6 +17,10 @@ export class Board {
     this.blocks = {};
   }
 
+  hasFalling() {
+    return this.isBlockFalling;
+  }
+
   drop(block) {
     if (this.isBlockFalling) {
       throw Error("already falling");
@@ -30,6 +34,10 @@ export class Board {
   tick() {
     for (const hash in this.blocks) {
       const [x, y] = hashToXY(hash);
+      if (y === this.height - 1) {
+        this.isBlockFalling = false;
+        continue; // block hits the bottom
+      }
       this.blocks[getPosHash(x, y + 1)] = this.blocks[hash];
       delete this.blocks[hash];
     }
