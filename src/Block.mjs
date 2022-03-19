@@ -1,13 +1,14 @@
 export class Block {
   color;
-  falling = true;
+  pos = { x: 0, y: 0 };
 
   constructor(color) {
     this.color = color;
   }
 
-  setFalling(b) {
-    return (this.falling = b);
+  moveTo(x, y) {
+    this.pos.x += x;
+    this.pos.y += y;
   }
 
   toString() {

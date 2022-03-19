@@ -1,68 +1,59 @@
-function stringifyPosition(x, y) {
-  return `${x}|${y}`;
-}
-
-function parsePosition(str) {
-  return str.split("|").map((n) => Number(n));
-}
+import { blockIsAt } from "./util.mjs";
 
 export class Board {
   width;
   height;
-  falling = false;
+  fallingBlock = null;
 
   constructor(width, height) {
     this.width = width;
     this.height = height;
-    this.blocks = {};
+    this.cells = Array(height)
+      .fill(null)
+      .map(() => Array(width).fill("."));
   }
 
   hasFalling() {
-    return this.falling;
+    return Boolean(this.fallingBlock);
   }
 
   drop(block) {
-    if (this.falling) {
+    if (this.hasFalling()) {
       throw Error("already falling");
     }
 
-    // drops from the top middle
-    this.setBlockPosition(block, Math.floor(this.width / 2), 0);
-    this.falling = true;
+    block.moveTo(Math.floor(this.width / 2), 0);
+    this.fallingBlock = block;
   }
 
   tick() {
-    for (const hash in this.blocks) {
-      const [x, y] = parsePosition(hash);
-      const block = this.blocks[hash];
+    const block = this.fallingBlock;
 
-      if (!block.falling) {
-        continue;
-      }
-
-      if (y === this.height - 1 || this.blocks[stringifyPosition(x, y + 1)]) {
-        this.falling = block.setFalling(false);
-        continue; // block hits the bottom
-      }
-
-      this.moveBlockTo(hash, x, y + 1);
+    if (!block) {
+      return;
     }
+
+    const lastRow = this.cells[block.pos.y + 1];
+
+    if (!lastRow || lastRow[block.pos.x] !== ".") {
+      this.cells[block.pos.y][block.pos.x] = block.toString();
+      return this.clearFallingBlock();
+    }
+
+    block.moveTo(0, 1);
   }
 
-  moveBlockTo(hash, x, y) {
-    this.setBlockPosition(this.blocks[hash], x, y);
-    delete this.blocks[hash];
-  }
-
-  setBlockPosition(block, x, y) {
-    this.blocks[stringifyPosition(x, y)] = block;
+  clearFallingBlock() {
+    this.fallingBlock = null;
   }
 
   toString() {
     let str = "";
     for (let y = 0; y < this.height; y++) {
       for (let x = 0; x < this.width; x++) {
-        str += this.blocks[stringifyPosition(x, y)] ?? ".";
+        str += blockIsAt(this.fallingBlock, x, y)
+          ? this.fallingBlock
+          : this.cells[y][x];
       }
       str += "\n";
     }
