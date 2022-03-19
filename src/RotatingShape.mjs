@@ -2,7 +2,21 @@ import { removeWhitespaces } from "./util.mjs";
 
 export class RotatingShape {
   constructor(shape) {
-    this.shape = shape.split("\n").map((row) => removeWhitespaces(row));
+    if (typeof shape === "string") {
+      shape = shape.split("\n").map((row) => removeWhitespaces(row));
+    }
+    this.shape = shape;
+    this.dim = this.shape.length;
+  }
+
+  rotateRight() {
+    const rotated = Array(this.dim).fill("");
+    for (let i = 0; i < this.dim; i++) {
+      for (let j = this.dim - 1; j >= 0; j--) {
+        rotated[i] += this.shape[j][i];
+      }
+    }
+    return new RotatingShape(rotated);
   }
 
   toString() {
