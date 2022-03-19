@@ -1,37 +1,26 @@
 import { RotatingShape } from "./RotatingShape.mjs";
 
 export class IShape extends RotatingShape {
-  isVertical = false;
-
-  constructor(shape) {
-    super(
-      shape ??
-        `.....
+  constructor(isVertical) {
+    const shape = isVertical
+      ? `..I..
+         ..I..
+         ..I..
+         ..I..
+         .....`
+      : `.....
          .....
          IIII.
          .....
-         .....`
-    );
+         .....`;
+
+    super(shape);
+    this.isVertical = isVertical;
   }
 
   rotateRight() {
-    const shape = this.isVertical
-      ? `.....
-         .....
-         IIII.
-         .....
-         .....`
-      : `..I..
-         ..I..
-         ..I..
-         ..I..
-         .....`;
-    const rotated = new IShape(shape);
-    rotated.isVertical = !this.isVertical;
-    return rotated;
+    return new IShape(!this.isVertical);
   }
 
-  rotateLeft() {
-    return this.rotateRight();
-  }
+  rotateLeft = this.rotateRight;
 }
