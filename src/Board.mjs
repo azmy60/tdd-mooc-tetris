@@ -22,7 +22,7 @@ export class Board {
       throw Error("already falling");
     }
 
-    block.moveTo(Math.floor(this.width / 2), 0);
+    block.moveTo(Math.floor((this.width - block.dim) / 2), 0);
     this.fallingBlock = block;
   }
 
@@ -52,7 +52,7 @@ export class Board {
     for (let y = 0; y < this.height; y++) {
       for (let x = 0; x < this.width; x++) {
         str += blockIsAt(this.fallingBlock, x, y)
-          ? this.fallingBlock
+          ? this.fallingBlock.color
           : this.cells[y][x];
       }
       str += "\n";

@@ -1,10 +1,14 @@
 import { removeWhitespaces } from "./util.mjs";
+import { Block } from "./Block.mjs";
 
-export class RotatingShape {
-  constructor(shape) {
+export class RotatingShape extends Block {
+  constructor(shape, color) {
+    super(color);
+
     if (typeof shape === "string") {
       shape = shape.split("\n").map((row) => removeWhitespaces(row));
     }
+
     this.shape = shape;
     this.dim = this.shape.length;
   }
@@ -16,7 +20,7 @@ export class RotatingShape {
         rotated[i] += this.shape[j][i];
       }
     }
-    return new RotatingShape(rotated);
+    return new RotatingShape(rotated, this.color);
   }
 
   rotateLeft() {
@@ -26,7 +30,7 @@ export class RotatingShape {
         rotated[this.dim - 1 - i] += this.shape[j][i];
       }
     }
-    return new RotatingShape(rotated);
+    return new RotatingShape(rotated, this.color);
   }
 
   toString() {

@@ -5,7 +5,8 @@ export class TShape extends RotatingShape {
     super(
       `.T.
        TTT
-       ...`
+       ...`,
+      "T"
     );
   }
 }

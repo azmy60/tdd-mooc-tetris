@@ -5,7 +5,8 @@ export class OShape extends RotatingShape {
     super(
       `.OO
        .OO
-       ...`
+       ...`,
+      "O"
     );
   }
 

@@ -14,7 +14,7 @@ export class IShape extends RotatingShape {
          .....
          .....`;
 
-    super(shape);
+    super(shape, "I");
     this.isVertical = isVertical;
   }
 
