@@ -2,8 +2,8 @@ import { removeWhitespaces } from "./util.mjs";
 import { Block } from "./Block.mjs";
 
 export class RotatingShape extends Block {
-  constructor(shape, color, { offsetX, offsetY, width, height } = {}) {
-    super(color, { offsetX, offsetY, width, height });
+  constructor(shape, color, { offset, size } = {}) {
+    super(color, { offset, size });
 
     if (typeof shape === "string") {
       shape = shape.split("\n").map((row) => removeWhitespaces(row));

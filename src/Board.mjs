@@ -1,4 +1,4 @@
-import { blockIsAt } from "./util.mjs";
+import { Vector2 } from "./Vector2.mjs";
 
 export class Board {
   width;
@@ -23,7 +23,7 @@ export class Board {
     }
 
     block.register(this);
-    block.moveTo(Math.floor((this.width - block.dim) / 2), 0);
+    block.move(new Vector2(Math.floor((this.width - block.dim) / 2), 0));
     this.fallingBlock = block;
   }
 
@@ -39,14 +39,14 @@ export class Board {
       return this.clearFallingBlock();
     }
 
-    block.moveTo(0, 1);
+    block.move(new Vector2(0, 1));
   }
 
   fillWithBlock() {
     this.rows.forEach((row, y, rows) =>
       row.forEach(
         (_, x) =>
-          blockIsAt(this.fallingBlock, x, y) &&
+          this.fallingBlock?.contains(new Vector2(x, y)) &&
           (rows[y][x] = this.fallingBlock.color)
       )
     );
@@ -60,7 +60,7 @@ export class Board {
     let str = "";
     for (let y = 0; y < this.height; y++) {
       for (let x = 0; x < this.width; x++) {
-        str += blockIsAt(this.fallingBlock, x, y)
+        str += this.fallingBlock?.contains(new Vector2(x, y))
           ? this.fallingBlock.color
           : this.rows[y][x];
       }

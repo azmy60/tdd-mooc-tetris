@@ -1,4 +1,5 @@
 import { RotatingShape } from "./RotatingShape.mjs";
+import { Vector2 } from "./Vector2.mjs";
 
 export class TShape extends RotatingShape {
   constructor() {
@@ -7,7 +8,10 @@ export class TShape extends RotatingShape {
        TTT
        ...`,
       "T",
-      { offsetX: 0, offsetY: 0, width: 3, height: 2 }
+      {
+        offset: new Vector2(0, 0),
+        size: new Vector2(3, 2),
+      }
     );
   }
 }
