@@ -22,9 +22,11 @@ export class Board {
       throw Error("already falling");
     }
 
-    block.register(this);
-    block.move(new Vector2(Math.floor((this.width - block.dim) / 2), 0));
-    this.fallingBlock = block;
+    block.attachBoard(this);
+    this.attachFalling(block);
+
+    const middle = new Vector2(Math.floor((this.width - block.dim) / 2), 0);
+    block.move(middle);
   }
 
   tick() {
@@ -36,7 +38,7 @@ export class Board {
 
     if (block.isLanded()) {
       this.fillWithBlock();
-      return this.clearFallingBlock();
+      return this.clearFalling();
     }
 
     block.move(new Vector2(0, 1));
@@ -52,7 +54,11 @@ export class Board {
     );
   }
 
-  clearFallingBlock() {
+  attachFalling(block) {
+    this.fallingBlock = block;
+  }
+
+  clearFalling() {
     this.fallingBlock = null;
   }
 

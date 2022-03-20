@@ -8,7 +8,7 @@ export class Collider {
     this.size = size;
   }
 
-  register(board) {
+  attachBoard(board) {
     this.board = board;
   }
 
