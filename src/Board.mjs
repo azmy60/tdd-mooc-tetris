@@ -22,6 +22,7 @@ export class Board {
       throw Error("already falling");
     }
 
+    block.register(this);
     block.moveTo(Math.floor((this.width - block.dim) / 2), 0);
     this.fallingBlock = block;
   }
@@ -33,14 +34,22 @@ export class Board {
       return;
     }
 
-    const lastRow = this.rows[block.pos.y + 1];
-
-    if (!lastRow || lastRow[block.pos.x] !== ".") {
-      this.rows[block.pos.y][block.pos.x] = block.toString();
+    if (block.isLanded()) {
+      this.fillWithBlock();
       return this.clearFallingBlock();
     }
 
     block.moveTo(0, 1);
+  }
+
+  fillWithBlock() {
+    this.rows.forEach((row, y, rows) =>
+      row.forEach(
+        (_, x) =>
+          blockIsAt(this.fallingBlock, x, y) &&
+          (rows[y][x] = this.fallingBlock.color)
+      )
+    );
   }
 
   clearFallingBlock() {

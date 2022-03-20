@@ -1,16 +1,13 @@
-export class Block {
+import { Collider } from "./Collider.mjs";
+
+export class Block extends Collider {
   color;
   dim = 1;
-  pos = { x: 0, y: 0 };
 
-  constructor(color) {
+  constructor(color, { offsetX = 0, offsetY = 0, width = 1, height = 1 } = {}) {
+    super({ offsetX, offsetY, width, height });
     this.color = color;
     this.shape = [[color]];
-  }
-
-  moveTo(x, y) {
-    this.pos.x += x;
-    this.pos.y += y;
   }
 
   toString() {
