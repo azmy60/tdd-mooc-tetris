@@ -8,7 +8,7 @@ export class Board {
   constructor(width, height) {
     this.width = width;
     this.height = height;
-    this.cells = Array(height)
+    this.rows = Array(height)
       .fill(null)
       .map(() => Array(width).fill("."));
   }
@@ -33,10 +33,10 @@ export class Board {
       return;
     }
 
-    const lastRow = this.cells[block.pos.y + 1];
+    const lastRow = this.rows[block.pos.y + 1];
 
     if (!lastRow || lastRow[block.pos.x] !== ".") {
-      this.cells[block.pos.y][block.pos.x] = block.toString();
+      this.rows[block.pos.y][block.pos.x] = block.toString();
       return this.clearFallingBlock();
     }
 
@@ -53,7 +53,7 @@ export class Board {
       for (let x = 0; x < this.width; x++) {
         str += blockIsAt(this.fallingBlock, x, y)
           ? this.fallingBlock.color
-          : this.cells[y][x];
+          : this.rows[y][x];
       }
       str += "\n";
     }
