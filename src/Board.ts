@@ -1,23 +1,21 @@
-import { Vector2 } from "./Vector2.mjs";
+import { Block } from "./Block";
+import { Vector2 } from "./Vector2";
 
 export class Board {
-  width;
-  height;
-  fallingBlock = null;
+  rows: string[][];
+  fallingBlock: Block;
 
-  constructor(width, height) {
-    this.width = width;
-    this.height = height;
+  constructor(public width: number, public height: number) {
     this.rows = Array(height)
       .fill(null)
       .map(() => Array(width).fill("."));
   }
 
-  hasFalling() {
+  hasFalling(): boolean {
     return Boolean(this.fallingBlock);
   }
 
-  drop(block) {
+  drop(block: Block) {
     if (this.hasFalling()) {
       throw Error("already falling");
     }
@@ -25,7 +23,10 @@ export class Board {
     block.attachBoard(this);
     this.attachFalling(block);
 
-    const middle = new Vector2(Math.floor((this.width - block.dim) / 2), 0);
+    const middle = new Vector2(
+      Math.floor((this.width - block.dimension) / 2),
+      0
+    );
     block.move(middle);
   }
 
@@ -54,7 +55,7 @@ export class Board {
     );
   }
 
-  attachFalling(block) {
+  attachFalling(block: Block) {
     this.fallingBlock = block;
   }
 
@@ -62,7 +63,7 @@ export class Board {
     this.fallingBlock = null;
   }
 
-  toString() {
+  toString(): string {
     let str = "";
     for (let y = 0; y < this.height; y++) {
       for (let x = 0; x < this.width; x++) {

@@ -1,7 +1,7 @@
-import { RotatingShape } from "./RotatingShape.mjs";
+import { RotatingShape } from "./RotatingShape";
 
 export class IShape extends RotatingShape {
-  constructor(isVertical) {
+  constructor(public isVertical: boolean = false) {
     const shape = isVertical
       ? `..I..
          ..I..
@@ -14,8 +14,7 @@ export class IShape extends RotatingShape {
          .....
          .....`;
 
-    super(shape, "I");
-    this.isVertical = isVertical;
+    super({ shape, color: "I" });
   }
 
   rotateRight() {

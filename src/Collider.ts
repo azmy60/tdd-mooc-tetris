@@ -1,31 +1,22 @@
-import { Vector2 } from "./Vector2.mjs";
+import { Board } from "./Board";
+import { Vector2 } from "./Vector2";
 
 export class Collider {
-  pos = new Vector2();
+  private board: Board = null;
+  public pos: Vector2 = new Vector2();
 
-  constructor(offset, size) {
-    this.offset = offset;
-    this.size = size;
-  }
+  constructor(public offset: unknown, public size: Vector2) {}
 
-  attachBoard(board) {
+  attachBoard(board: Board) {
     this.board = board;
   }
 
-  /**
-   * Move by point
-   * @param {Vector2} point
-   */
-  move(point) {
+  move(point: Vector2) {
     this.pos.add(point);
   }
 
-  /**
-   * Is point contained in this shape?
-   * @param {Vector2} point
-   * @returns {Boolean}
-   */
-  contains(point) {
+  // TODO refactor this
+  contains(point: Vector2): boolean {
     return (
       point.x >= this.pos.x &&
       point.y >= this.pos.y &&
@@ -34,7 +25,7 @@ export class Collider {
     );
   }
 
-  isLanded() {
+  isLanded(): boolean {
     const nextRow = this.board.rows[this.pos.y + this.size.y]?.join("") ?? "";
     const landedOnBlock = /[^\.]/.test(nextRow);
 

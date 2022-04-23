@@ -1,23 +1,23 @@
-import { expect } from "chai";
-import { Board } from "../src/Board.mjs";
-import { Tetromino } from "../src/Tetromino.mjs";
+import { Board } from "../../src/Board";
+import Tetromino from "../../src/Tetromino";
 
-function fallToBottom(board) {
+function fallToBottom(board: Board) {
   for (let i = 0; i < 10; i++) {
     board.tick();
   }
 }
 
 describe("Falling tetrominoes", () => {
-  let board;
+  let board: Board;
+
   beforeEach(() => {
     board = new Board(10, 6);
   });
 
   it("start from the top middle", () => {
-    board.drop(Tetromino.T_SHAPE);
+    board.drop(new Tetromino.TShape());
 
-    expect(board.toString()).to.equalShape(
+    expect(board.toString()).toEqualShape(
       `....T.....
        ...TTT....
        ..........
@@ -28,10 +28,10 @@ describe("Falling tetrominoes", () => {
   });
 
   it("stop when they hit the bottom", () => {
-    board.drop(Tetromino.T_SHAPE);
+    board.drop(new Tetromino.TShape());
     fallToBottom(board);
 
-    expect(board.toString()).to.equalShape(
+    expect(board.toString()).toEqualShape(
       `..........
        ..........
        ..........
@@ -42,12 +42,12 @@ describe("Falling tetrominoes", () => {
   });
 
   it("stop when they land on another block", () => {
-    board.drop(Tetromino.T_SHAPE);
+    board.drop(new Tetromino.TShape());
     fallToBottom(board);
-    board.drop(Tetromino.T_SHAPE);
+    board.drop(new Tetromino.TShape());
     fallToBottom(board);
 
-    expect(board.toString()).to.equalShape(
+    expect(board.toString()).toEqualShape(
       `..........
        ..........
        ....T.....
