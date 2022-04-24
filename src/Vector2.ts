@@ -1,13 +1,31 @@
 export class Vector2 {
-  constructor(public x: number = 0, public y: number = 0) {}
-
-  add(v: Vector2) {
-    this.x += v.x;
-    this.y += v.y;
+  static get zero(): Vector2 {
+    return new Vector2(0, 0);
   }
 
-  subtract(v: Vector2) {
-    this.x -= v.x;
-    this.y -= v.y;
+  constructor(public x: number, public y: number) {}
+
+  add(v: Vector2): void;
+  add(x: number, y: number): void;
+  add(vx: any, y?: number): void {
+    if (typeof vx === "number") {
+      this.x += vx;
+      this.y += y!;
+    } else {
+      this.x += vx.x;
+      this.y += vx.y;
+    }
+  }
+
+  subtract(v: Vector2): void;
+  subtract(x: number, y: number): void;
+  subtract(vx: any, y?: number): void {
+    if (typeof vx === "number") {
+      this.x -= vx;
+      this.y -= y!;
+    } else {
+      this.x -= vx.x;
+      this.y -= vx.y;
+    }
   }
 }

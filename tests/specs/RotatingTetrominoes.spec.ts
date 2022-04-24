@@ -1,7 +1,7 @@
-import { RotatingShape } from "../../src/RotatingShape";
-import Tetromino from "../../src/Tetromino";
+import { Shape } from "../../src/Shape";
+import { IShape, OShape, TShape } from "../../src/Shapes";
 
-function distinctOrientations(shape: RotatingShape) {
+function distinctOrientations(shape: Shape) {
   const distinct = new Set();
   let goingRight = shape;
   let goingLeft = shape;
@@ -15,7 +15,7 @@ function distinctOrientations(shape: RotatingShape) {
 }
 
 describe("The T shape", () => {
-  const shape: RotatingShape = new Tetromino.TShape();
+  const shape = new TShape();
 
   it("initial orientation", () => {
     expect(shape.toString()).toEqualShape(
@@ -47,7 +47,7 @@ describe("The T shape", () => {
 });
 
 describe("The I shape", () => {
-  const shape = new Tetromino.IShape();
+  const shape = new IShape();
 
   it("initial orientation", () => {
     expect(shape.toString()).toEqualShape(
@@ -85,7 +85,7 @@ describe("The I shape", () => {
 });
 
 describe("The O shape", () => {
-  const shape = new Tetromino.OShape();
+  const shape = new OShape();
 
   it("initial orientation", () => {
     expect(shape.toString()).toEqualShape(

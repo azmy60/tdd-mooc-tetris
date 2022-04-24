@@ -1,78 +1,60 @@
-import { Block } from "./Block";
+import { Matrix } from "./Matrix";
+import { Collision } from "./Collision";
+import { Shape } from "./Shape";
+import { Timer } from "./Timer";
 import { Vector2 } from "./Vector2";
+import { ShapeListener } from "./ShapeListener";
+import { centerOf } from "./utils";
 
-export class Board {
-  rows: string[][];
-  fallingBlock: Block;
+export class Board extends Timer implements ShapeListener {
+  private readonly matrix: Matrix;
+  private shape!: Shape;
+  private isIdle = true;
 
-  constructor(public width: number, public height: number) {
-    this.rows = Array(height)
-      .fill(null)
-      .map(() => Array(width).fill("."));
+  constructor(size: Vector2) {
+    super();
+    this.matrix = new Matrix(size);
   }
 
-  hasFalling(): boolean {
-    return Boolean(this.fallingBlock);
-  }
-
-  drop(block: Block) {
-    if (this.hasFalling()) {
+  public drop(shape: Shape) {
+    if (!this.isIdle) {
       throw Error("already falling");
     }
 
-    block.attachBoard(this);
-    this.attachFalling(block);
+    this.isIdle = false;
 
-    const middle = new Vector2(
-      Math.floor((this.width - block.dimension) / 2),
-      0
-    );
-    block.move(middle);
+    this.shape = shape;
+    shape.attachCollision(new Collision(shape, this.matrix));
+    shape.attachListener(this);
+    shape.place(centerOf(this.matrix, shape.rect).x, 0);
   }
 
-  tick() {
-    const block = this.fallingBlock;
+  protected onUpdate() {
+    if (this.shape.landed) return;
 
-    if (!block) {
-      return;
+    this.shape.moveDown();
+  }
+
+  public onLanded() {
+    this.nextTick(() => this.lockDown());
+  }
+
+  private lockDown() {
+    this.matrix.apply(this.shape);
+    this.isIdle = true;
+  }
+
+  public toString(): string {
+    if (!this.shape) {
+      return this.matrix.toString();
     }
 
-    if (block.isLanded()) {
-      this.fillWithBlock();
-      return this.clearFalling();
-    }
-
-    block.move(new Vector2(0, 1));
+    const matrix = this.matrix.copy();
+    matrix.apply(this.shape);
+    return matrix.toString();
   }
 
-  fillWithBlock() {
-    this.rows.forEach((row, y, rows) =>
-      row.forEach(
-        (_, x) =>
-          this.fallingBlock?.contains(new Vector2(x, y)) &&
-          (rows[y][x] = this.fallingBlock.color)
-      )
-    );
-  }
-
-  attachFalling(block: Block) {
-    this.fallingBlock = block;
-  }
-
-  clearFalling() {
-    this.fallingBlock = null;
-  }
-
-  toString(): string {
-    let str = "";
-    for (let y = 0; y < this.height; y++) {
-      for (let x = 0; x < this.width; x++) {
-        str += this.fallingBlock?.contains(new Vector2(x, y))
-          ? this.fallingBlock.color
-          : this.rows[y][x];
-      }
-      str += "\n";
-    }
-    return str;
+  public hasFallingShape() {
+    return !this.isIdle;
   }
 }

@@ -1,7 +1,10 @@
 {
+  "include": ["src/**/*", "tests/**/*"],
   "compilerOptions": {
-    "noImplicitAny": true,
+    "strict": true,
+    "sourceMap": true,
     "esModuleInterop": true,
+    "target": "es5",
     "lib": ["ES2021"]
   }
 }
