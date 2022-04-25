@@ -26,6 +26,18 @@ export class Board extends Timer implements ShapeListener {
     this.shape = shape;
   }
 
+  moveLeft() {
+    this.shape?.moveLeft();
+  }
+
+  moveRight() {
+    this.shape?.moveRight();
+  }
+
+  moveDown() {
+    this.shape?.moveDown();
+  }
+
   protected onUpdate() {
     this.shape?.moveDown();
   }

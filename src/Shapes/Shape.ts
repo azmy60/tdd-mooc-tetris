@@ -38,6 +38,14 @@ export class Shape {
     if (this.collision?.isLanded()) this.listener?.onLanded();
   }
 
+  moveLeft() {
+    this.rect.pos.add(Vector2.left);
+  }
+
+  moveRight() {
+    this.rect.pos.add(Vector2.right);
+  }
+
   rotateRight() {
     return new Shape(
       Array(this.dimension)

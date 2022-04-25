@@ -3,6 +3,14 @@ export class Vector2 {
     return new Vector2(0, 0);
   }
 
+  static get left() {
+    return new Vector2(-1, 0);
+  }
+
+  static get right() {
+    return new Vector2(1, 0);
+  }
+
   constructor(public x: number, public y: number) {}
 
   add(v: Vector2): void;
