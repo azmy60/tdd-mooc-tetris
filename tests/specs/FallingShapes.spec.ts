@@ -64,7 +64,7 @@ describe("Falling blocks", () => {
          .OO.
          .OO.`
       );
-      expect(board.hasFallingShape()).toBeTruthy();
+      expect(board.hasFallingShape).toBeTruthy();
     });
 
     it("it stops when it hits the bottom", () => {
@@ -76,7 +76,7 @@ describe("Falling blocks", () => {
          .OO.
          .OO.`
       );
-      expect(board.hasFallingShape()).toBeFalsy();
+      expect(board.hasFallingShape).toBeFalsy();
     });
   });
 });

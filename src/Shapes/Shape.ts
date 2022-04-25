@@ -32,15 +32,10 @@ export class Shape {
   }
 
   moveDown() {
-    if (this.landed) return;
+    if (this.collision?.isLanded()) return;
 
     this.rect.pos.add(new Vector2(0, 1));
-    if (this.landed) this.listener?.onLanded();
-  }
-
-  place(x: number, y: number) {
-    this.rect.pos.x = x;
-    this.rect.pos.y = y;
+    if (this.collision?.isLanded()) this.listener?.onLanded();
   }
 
   rotateRight() {
@@ -76,9 +71,5 @@ export class Shape {
       this.rect.contains(point) &&
       this.minos[point.y - this.rect.y][point.x - this.rect.x] === this.mino
     );
-  }
-
-  get landed() {
-    return this.collision?.isLanded();
   }
 }

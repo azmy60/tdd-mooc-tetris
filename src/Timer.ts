@@ -20,7 +20,7 @@ export class Timer {
 
   protected onUpdate() {}
 
-  protected nextTick(fn: Function, thisArg?: any) {
+  protected nextUpdate(fn: Function, thisArg?: any) {
     this.pendingFuncs.push({ fn, thisArg, callAt: this.time + 1 });
   }
 }

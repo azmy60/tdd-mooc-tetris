@@ -3,13 +3,17 @@ import { Shape } from "../../src/Shapes";
 import { str } from "../../src/utils";
 
 describe("Rotating 3x3 shape", () => {
-  const shape = new Shape(
-    str`ABC
-        DEF
-        GHI`,
-    "",
-    new Rect(0, 0, 3, 3)
-  );
+  let shape: Shape;
+
+  beforeEach(() => {
+    shape = new Shape(
+      str`ABC
+          DEF
+          GHI`,
+      "",
+      new Rect(0, 0, 3, 3)
+    );
+  });
 
   it("initial orientation", () => {
     expect(shape.toString()).toEqualShape(
