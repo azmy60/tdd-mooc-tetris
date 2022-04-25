@@ -30,7 +30,7 @@ export class Matrix extends Rect {
 
   copy() {
     const matrix = new Matrix(this.size);
-    matrix.pixels = Array.from(this.pixels);
+    matrix.pixels = this.pixels.map((row) => row.slice(0));
     return matrix;
   }
 
