@@ -1,5 +1,4 @@
 import { Matrix } from "./Matrix";
-import { Collision } from "./Collision";
 import { Shape } from "./Shapes";
 import { Timer } from "./Timer";
 import { Vector2 } from "./Vector2";
@@ -21,7 +20,7 @@ export class Board extends Timer implements ShapeListener {
     }
 
     shape.attachListener(this);
-    shape.attachCollision(new Collision(shape, this.matrix));
+    shape.setupCollision(this.matrix);
     shape.rect.pos.x = centerOf(this.matrix, shape.rect).x;
     this.shape = shape;
   }

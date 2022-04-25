@@ -1,4 +1,6 @@
+import { Bounds } from "../Bounds";
 import { Collision } from "../Collision";
+import { Matrix } from "../Matrix";
 import { Rect } from "../Rect";
 import { ShapeListener } from "../ShapeListener";
 import { Vector2 } from "../Vector2";
@@ -6,7 +8,7 @@ import { Vector2 } from "../Vector2";
 export class Shape {
   readonly rect: Rect;
   private listener?: ShapeListener;
-  private _collision?: Collision;
+  private collision?: Collision;
   private readonly dimension: number;
   // public readonly innerRect: Rect // TODO dont use innerRect. collision should be detected based on the letters
 
@@ -23,12 +25,8 @@ export class Shape {
     this.listener = listener;
   }
 
-  attachCollision(collision: Collision) {
-    this._collision = collision;
-  }
-
-  get collision(): Collision | undefined {
-    return this._collision;
+  setupCollision(matrix: Matrix) {
+    this.collision = new Collision(new Bounds(this), matrix);
   }
 
   moveDown() {
@@ -39,10 +37,12 @@ export class Shape {
   }
 
   moveLeft() {
+    if (this.collision?.isTouchingLeft()) return;
     this.rect.pos.add(Vector2.left);
   }
 
   moveRight() {
+    if (this.collision?.isTouchingRight()) return;
     this.rect.pos.add(Vector2.right);
   }
 
