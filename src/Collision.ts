@@ -1,23 +1,23 @@
 import { Matrix } from "./Matrix";
-import { Shape } from "./Shape";
+import { Shape } from "./Shapes";
 
 export class Collision {
   constructor(private readonly shape: Shape, private readonly matrix: Matrix) {}
 
-  public isLanded(): boolean {
+  isLanded() {
     return this.isLandedOnBlock() || this.isLandedOnFloor();
   }
 
-  private isLandedOnBlock(): boolean {
+  private isLandedOnBlock() {
     const nextRow = this.matrix?.row(this.rightBelow())?.join("");
     return !!nextRow && /[^\.]/.test(nextRow);
   }
 
-  private isLandedOnFloor(): boolean {
+  private isLandedOnFloor() {
     return this.rightBelow() >= this.matrix?.height!;
   }
 
-  private rightBelow(): number {
+  private rightBelow() {
     return (
       this.shape.rect.y + this.shape.innerRect.y + this.shape.innerRect.height
     );

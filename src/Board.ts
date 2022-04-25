@@ -1,6 +1,6 @@
 import { Matrix } from "./Matrix";
 import { Collision } from "./Collision";
-import { Shape } from "./Shape";
+import { Shape } from "./Shapes";
 import { Timer } from "./Timer";
 import { Vector2 } from "./Vector2";
 import { ShapeListener } from "./ShapeListener";
@@ -11,12 +11,12 @@ export class Board extends Timer implements ShapeListener {
   private shape!: Shape;
   private isIdle = true;
 
-  constructor(size: Vector2) {
+  constructor(width: number, height: number) {
     super();
-    this.matrix = new Matrix(size);
+    this.matrix = new Matrix(new Vector2(width, height));
   }
 
-  public drop(shape: Shape) {
+  drop(shape: Shape) {
     if (!this.isIdle) {
       throw Error("already falling");
     }
@@ -35,8 +35,8 @@ export class Board extends Timer implements ShapeListener {
     this.shape.moveDown();
   }
 
-  public onLanded() {
-    this.nextTick(() => this.lockDown());
+  onLanded() {
+    this.nextTick(this.lockDown, this);
   }
 
   private lockDown() {
@@ -44,7 +44,7 @@ export class Board extends Timer implements ShapeListener {
     this.isIdle = true;
   }
 
-  public toString(): string {
+  toString(): string {
     if (!this.shape) {
       return this.matrix.toString();
     }
@@ -54,7 +54,7 @@ export class Board extends Timer implements ShapeListener {
     return matrix.toString();
   }
 
-  public hasFallingShape() {
+  hasFallingShape() {
     return !this.isIdle;
   }
 }

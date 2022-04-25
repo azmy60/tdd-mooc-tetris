@@ -1,5 +1,5 @@
 import { Rect } from "./Rect";
-import { Shape } from "./Shape";
+import { Shape } from "./Shapes";
 import { make2DArray } from "./utils";
 import { Vector2 } from "./Vector2";
 
@@ -11,34 +11,34 @@ export class Matrix extends Rect {
     this.pixels = make2DArray(size, ".");
   }
 
-  public apply(shape: Shape) {
-    this.fill(shape.mino, (pos) => shape.contains(pos));
+  apply(shape: Shape) {
+    this.fill(shape.mino, shape.contains, shape);
   }
 
-  public fill(char: string, filter: (pos: Vector2) => boolean) {
+  fill(char: string, filter: (pos: Vector2) => boolean, thisArg?: any) {
     this.pixels.forEach((row, y) =>
       row
         .map((_, x) => new Vector2(x, y))
-        .filter((pos) => filter(pos))
+        .filter((pos) => filter.call(thisArg, pos))
         .forEach((pos) => this.put(char, pos))
     );
   }
 
-  public put(char: string, pos: Vector2) {
+  put(char: string, pos: Vector2) {
     this.pixels[pos.y][pos.x] = char;
   }
 
-  public copy(): Matrix {
+  copy() {
     const matrix = new Matrix(this.size);
     matrix.pixels = Array.from(this.pixels);
     return matrix;
   }
 
-  public row(index: number): string[] | undefined {
+  row(index: number) {
     return this.pixels.at(index);
   }
 
-  public toString(): string {
+  toString() {
     return this.pixels.reduce((prev, curr) => `${prev}${curr.join("")}\n`, "");
   }
 }

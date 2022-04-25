@@ -28,7 +28,7 @@ describe("Canvas", () => {
   });
 
   it("can fill each cells with characters by filter, like Array.filter (not really but kinda)", () => {
-    matrix.fill("X", (pos: Vector2) => pos.x > 0 && pos.y < 2);
+    matrix.fill("X", (pos) => pos.x > 0 && pos.y < 2);
 
     expect(matrix.toString()).toEqualShape(
       `.XX

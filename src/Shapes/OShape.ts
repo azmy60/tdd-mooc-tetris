@@ -1,5 +1,5 @@
 import { Rect } from "../Rect";
-import { Shape } from "../Shape";
+import { Shape } from "./Shape";
 import { str } from "../utils";
 
 export class OShape extends Shape {
@@ -15,7 +15,7 @@ export class OShape extends Shape {
 
   rotateLeft = this.rotateRight;
 
-  rotateRight(): Shape {
+  rotateRight() {
     return new OShape();
   }
 }

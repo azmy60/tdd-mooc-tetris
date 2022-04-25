@@ -1,27 +1,26 @@
-type PendingFunction = { fn: Function; callAt: number };
+type PendingFunction = { fn: Function; callAt: number; thisArg: any };
 
 export class Timer {
-  public tick() {
+  private time = 0;
+  private pendingFuncs: PendingFunction[] = [];
+
+  tick() {
     this.onUpdate();
     this.processPendingFuncs();
     this.time++;
   }
 
-  private pendingFuncs: PendingFunction[] = [];
-
   private processPendingFuncs() {
     this.pendingFuncs
       .filter((p) => this.time === p.callAt)
-      .forEach((p) => p.fn());
+      .forEach((p) => p.fn.call(p.thisArg));
 
     this.pendingFuncs = this.pendingFuncs.filter((p) => this.time !== p.callAt);
   }
 
-  private time: number = 0;
-
   protected onUpdate() {}
 
-  protected nextTick(fn: Function) {
-    this.pendingFuncs.push({ fn, callAt: this.time + 1 });
+  protected nextTick(fn: Function, thisArg?: any) {
+    this.pendingFuncs.push({ fn, thisArg, callAt: this.time + 1 });
   }
 }

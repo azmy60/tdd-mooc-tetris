@@ -1,5 +1,5 @@
 import { Rect } from "../../src/Rect";
-import { Shape } from "../../src/Shape";
+import { Shape } from "../../src/Shapes";
 import { str } from "../../src/utils";
 
 describe("Rotating 3x3 shape", () => {

@@ -1,5 +1,5 @@
 import { Rect } from "../Rect";
-import { Shape } from "../Shape";
+import { Shape } from "./Shape";
 import { str } from "../utils";
 
 export class TShape extends Shape {

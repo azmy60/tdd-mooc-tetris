@@ -1,7 +1,7 @@
 import { Rect } from "./Rect";
 import { Vector2 } from "./Vector2";
 
-export function removeWhitespaces(str: string): string {
+export function removeWhitespaces(str: string) {
   return str.replaceAll(/\s/g, "");
 }
 
@@ -11,7 +11,7 @@ export function make2DArray(size: Vector2, fill?: any) {
     .map(() => Array(size.x).fill(fill));
 }
 
-export function str(strings: TemplateStringsArray): string[] {
+export function str(strings: TemplateStringsArray) {
   return strings.raw[0].split("\n").map(removeWhitespaces);
 }
 

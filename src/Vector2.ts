@@ -1,5 +1,5 @@
 export class Vector2 {
-  static get zero(): Vector2 {
+  static get zero() {
     return new Vector2(0, 0);
   }
 

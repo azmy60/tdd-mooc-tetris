@@ -1,6 +1,5 @@
 import { Board } from "../../src/Board";
 import { TShape } from "../../src/Shapes";
-import { Vector2 } from "../../src/Vector2";
 
 function fallToBottom(board: Board) {
   for (let i = 0; i < 10; i++) {
@@ -12,7 +11,7 @@ describe("Falling tetrominoes", () => {
   let board: Board;
 
   beforeEach(() => {
-    board = new Board(new Vector2(10, 6));
+    board = new Board(10, 6);
   });
 
   it("stop when they hit the bottom", () => {

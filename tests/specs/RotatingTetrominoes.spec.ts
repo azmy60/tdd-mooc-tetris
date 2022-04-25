@@ -1,5 +1,4 @@
-import { Shape } from "../../src/Shape";
-import { IShape, OShape, TShape } from "../../src/Shapes";
+import { Shape, IShape, OShape, TShape } from "../../src/Shapes";
 
 function distinctOrientations(shape: Shape) {
   const distinct = new Set();

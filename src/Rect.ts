@@ -1,8 +1,8 @@
 import { Vector2 } from "./Vector2";
 
 export class Rect {
-  public pos: Vector2;
-  public size: Vector2;
+  pos: Vector2;
+  size: Vector2;
 
   constructor(pos: Vector2, size: Vector2);
   constructor(x: number, y: number, width: number, height: number);
@@ -16,7 +16,7 @@ export class Rect {
     }
   }
 
-  public contains(point: Vector2): boolean {
+  contains(point: Vector2) {
     return (
       point.x >= this.x &&
       point.y >= this.y &&
@@ -25,19 +25,19 @@ export class Rect {
     );
   }
 
-  public get x(): number {
+  get x() {
     return this.pos.x;
   }
 
-  public get y(): number {
+  get y() {
     return this.pos.y;
   }
 
-  public get width(): number {
+  get width() {
     return this.size.x;
   }
 
-  public get height(): number {
+  get height() {
     return this.size.y;
   }
 }

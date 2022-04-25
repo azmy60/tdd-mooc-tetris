@@ -1,12 +1,11 @@
 import { Board } from "../../src/Board";
 import { OShape } from "../../src/Shapes";
-import { Vector2 } from "../../src/Vector2";
 
 describe("Falling blocks", () => {
   let board: Board;
 
   beforeEach(() => {
-    board = new Board(new Vector2(4, 4));
+    board = new Board(4, 4);
   });
 
   it("The board starts empty", () => {
