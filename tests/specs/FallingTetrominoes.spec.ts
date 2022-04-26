@@ -1,46 +1,101 @@
 import { Board } from "../../src/Board";
 import { TShape } from "../../src/Shapes";
 
-function fallToBottom(board: Board) {
-  for (let i = 0; i < 10; i++) {
-    board.tick();
-  }
-}
-
 describe("Falling tetrominoes", () => {
-  let board: Board;
-
-  beforeEach(() => {
-    board = new Board(10, 6);
-  });
-
-  it("stop when they hit the bottom", () => {
-    board.drop(new TShape());
-    fallToBottom(board);
-
-    expect(board.toString()).toEqualShape(
-      `..........
-       ..........
-       ..........
-       ..........
-       ....T.....
-       ...TTT....`
+  it("The board starts empty", () => {
+    expect(new Board(3, 3).toString()).toEqualShape(
+      `...
+       ...
+       ...`
     );
   });
 
-  it("stop when they land on another block", () => {
-    board.drop(new TShape());
-    fallToBottom(board);
-    board.drop(new TShape());
-    fallToBottom(board);
+  describe("When a tetromino is dropped", () => {
+    let board: Board;
 
-    expect(board.toString()).toEqualShape(
-      `..........
-       ..........
-       ....T.....
-       ...TTT....
-       ....T.....
-       ...TTT....`
-    );
+    beforeEach(() => {
+      board = new Board(6, 4);
+      board.drop(new TShape());
+    });
+
+    it("it starts from the top middle", () => {
+      expect(board.toString()).toEqualShape(
+        `..T...
+         .TTT..
+         ......
+         ......`
+      );
+    });
+
+    it("it moves down one row per tick", () => {
+      board.tick();
+
+      expect(board.toString()).toEqualShape(
+        `......
+         ..T...
+         .TTT..
+         ......`
+      );
+    });
+
+    it("it is still moving on the last row", () => {
+      board.tick();
+      board.tick();
+      expect(board.toString()).toEqualShape(
+        `......
+         ......
+         ..T...
+         .TTT..`
+      );
+      expect(board.hasFallingShape).toBeTruthy();
+    });
+
+    it("at most one block may be falling at a time", () => {
+      const before = board.toString();
+      expect(() => board.drop(new TShape())).toThrow("already falling");
+      const after = board.toString();
+      expect(after).toEqual(before);
+    });
+  });
+
+  describe("When a tetromino reaches the bottom", () => {
+    let board: Board;
+
+    beforeEach(() => {
+      board = new Board(10, 6);
+    });
+
+    function dropAndFall() {
+      board.drop(new TShape());
+      for (let i = 0; i < 10; i++) {
+        board.tick();
+      }
+    }
+
+    it("it stops when it hits the bottom", () => {
+      dropAndFall();
+      expect(board.toString()).toEqualShape(
+        `..........
+         ..........
+         ..........
+         ..........
+         ....T.....
+         ...TTT....`
+      );
+      expect(board.hasFallingShape).toBeFalsy();
+    });
+
+    it("stop when they land on another tetromino", () => {
+      dropAndFall();
+      dropAndFall();
+      expect(board.toString()).toEqualShape(
+        `..........
+         ..........
+         ....T.....
+         ...TTT....
+         ....T.....
+         ...TTT....`
+      );
+    });
   });
 });

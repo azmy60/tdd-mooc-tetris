@@ -2,7 +2,7 @@ import { Matrix } from "./Matrix";
 import { Shape } from "./Shapes";
 import { Timer } from "./Timer";
 import { Vector2 } from "./Vector2";
-import { ShapeListener } from "./ShapeListener";
+import { ShapeListener } from "./Shapes/ShapeListener";
 import { centerOf } from "./utils";
 
 export class Board extends Timer implements ShapeListener {

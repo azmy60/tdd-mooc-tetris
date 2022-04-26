@@ -1,14 +1,18 @@
+import { MatrixString } from "./MatrixString";
 import { Rect } from "./Rect";
 import { Shape } from "./Shapes";
 import { make2DArray } from "./utils";
 import { Vector2 } from "./Vector2";
 
 export class Matrix extends Rect {
-  private pixels: string[][];
+  // FIXME update MatrixString so it can be used for rectangles (non-square).
+  private strings: MatrixString;
 
-  constructor(size: Vector2) {
+  constructor(size: Vector2, strings?: MatrixString) {
     super(Vector2.zero, size);
-    this.pixels = make2DArray(size, ".");
+
+    if (!strings) strings = new MatrixString(make2DArray(this.size, "."));
+    this.strings = strings;
   }
 
   apply(shape: Shape) {
@@ -16,7 +20,7 @@ export class Matrix extends Rect {
   }
 
   fill(char: string, filter: (pos: Vector2) => boolean, thisArg?: any) {
-    this.pixels.forEach((row, y) =>
+    this.strings.rows.forEach((row, y) =>
       row
         .map((_, x) => new Vector2(x, y))
         .filter((pos) => filter.call(thisArg, pos))
@@ -25,20 +29,18 @@ export class Matrix extends Rect {
   }
 
   put(char: string, pos: Vector2) {
-    this.pixels[pos.y][pos.x] = char;
+    this.strings.rows[pos.y][pos.x] = char;
   }
 
   copy() {
-    const matrix = new Matrix(this.size);
-    matrix.pixels = this.pixels.map((row) => row.slice(0));
-    return matrix;
+    return new Matrix(this.size, this.strings.copy());
   }
 
   row(index: number) {
-    return this.pixels.at(index);
+    return this.strings.rows[index];
   }
 
   toString() {
-    return this.pixels.reduce((prev, curr) => `${prev}${curr.join("")}\n`, "");
+    return this.strings.toString();
   }
 }

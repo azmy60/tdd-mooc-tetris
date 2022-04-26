@@ -1,16 +1,14 @@
-import { Rect } from "../Rect";
 import { Shape } from "./Shape";
-import { str } from "../utils";
+import { sqr } from "../utils";
 
 export class IShape_A extends Shape {
   constructor() {
-    const rect = new Rect(0, 2, 4, 1);
-    const shape = str`.....
+    const shape = sqr`.....
                       .....
                       IIII.
                       .....
                       .....`;
-    super(shape, "I", rect);
+    super(shape, "I");
   }
 
   rotateLeft = this.rotateRight;
@@ -22,13 +20,12 @@ export class IShape_A extends Shape {
 
 export class IShape_B extends Shape {
   constructor() {
-    const rect = new Rect(2, 0, 1, 4);
-    const shape = str`..I..
+    const shape = sqr`..I..
                       ..I..
                       ..I..
                       ..I..
                       .....`;
-    super(shape, "I", rect);
+    super(shape, "I");
   }
 
   rotateLeft = this.rotateRight;

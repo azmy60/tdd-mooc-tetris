@@ -2,23 +2,20 @@ import { Bounds } from "../Bounds";
 import { Collision } from "../Collision";
 import { Matrix } from "../Matrix";
 import { Rect } from "../Rect";
-import { ShapeListener } from "../ShapeListener";
+import { ShapeListener } from "./ShapeListener";
 import { Vector2 } from "../Vector2";
+import { MatrixString } from "../MatrixString";
 
 export class Shape {
   readonly rect: Rect;
   private listener?: ShapeListener;
   private collision?: Collision;
-  private readonly dimension: number;
-  // public readonly innerRect: Rect // TODO dont use innerRect. collision should be detected based on the letters
 
   constructor(
-    public readonly minos: string[],
-    public readonly mino: string,
-    public readonly innerRect: Rect
+    public readonly minos: MatrixString,
+    public readonly mino: string
   ) {
-    this.dimension = minos.length;
-    this.rect = new Rect(0, 0, this.dimension, this.dimension);
+    this.rect = new Rect(0, 0, minos.size, minos.size);
   }
 
   attachListener(listener: ShapeListener) {
@@ -26,7 +23,7 @@ export class Shape {
   }
 
   setupCollision(matrix: Matrix) {
-    this.collision = new Collision(new Bounds(this), matrix);
+    this.collision = new Collision(this.rect.pos, new Bounds(this), matrix);
   }
 
   moveDown() {
@@ -47,37 +44,22 @@ export class Shape {
   }
 
   rotateRight() {
-    return new Shape(
-      Array(this.dimension)
-        .fill("")
-        .map((_, i) =>
-          this.minos.reduceRight((prev, curr) => prev + curr[i], "")
-        ),
-      this.mino,
-      this.innerRect
-    );
+    return new Shape(this.minos.rotateRight(), this.mino);
   }
 
   rotateLeft() {
-    return new Shape(
-      Array(this.dimension)
-        .fill("")
-        .map((_, i, { length }) =>
-          this.minos.reduce((prev, curr) => prev + curr[length - 1 - i], "")
-        ),
-      this.mino,
-      this.innerRect
-    );
+    return new Shape(this.minos.rotateLeft(), this.mino);
   }
 
   toString() {
-    return `${this.minos.join("\n")}\n`;
+    return this.minos.toString();
   }
 
   contains(point: Vector2) {
     return (
       this.rect.contains(point) &&
-      this.minos[point.y - this.rect.y][point.x - this.rect.x] === this.mino
+      this.minos.rows[point.y - this.rect.y][point.x - this.rect.x] ===
+        this.mino
     );
   }
 }

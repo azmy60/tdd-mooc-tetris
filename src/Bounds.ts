@@ -1,21 +1,22 @@
 import { Shape } from "./Shapes";
+import { findLastIndex } from "./utils";
 
 export class Bounds {
-  constructor(private readonly shape: Shape) {}
+  public readonly left: number;
+  public readonly right: number;
+  public readonly top: number;
+  public readonly bottom: number;
 
-  get left() {
-    return this.shape.rect.x + this.shape.innerRect.x;
-  }
-
-  get right() {
-    return this.left + this.shape.innerRect.width;
-  }
-
-  get top() {
-    return this.shape.rect.y + this.shape.innerRect.y;
-  }
-
-  get bottom() {
-    return this.top + this.shape.innerRect.height;
+  constructor(shape: Shape) {
+    this.left = shape.minos.cols.findIndex((col) => col.includes(shape.mino));
+    this.top = shape.minos.rows.findIndex((row) => row.includes(shape.mino));
+    this.right =
+      this.left +
+      findLastIndex(shape.minos.cols, (col) => col.includes(shape.mino)) -
+      1;
+    this.bottom =
+      this.top +
+      findLastIndex(shape.minos.rows, (row) => row.includes(shape.mino)) -
+      1;
   }
 }

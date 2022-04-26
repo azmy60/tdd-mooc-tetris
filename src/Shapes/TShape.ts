@@ -1,15 +1,13 @@
-import { Rect } from "../Rect";
 import { Shape } from "./Shape";
-import { str } from "../utils";
+import { sqr } from "../utils";
 
 export class TShape extends Shape {
   constructor() {
     super(
-      str`.T.
+      sqr`.T.
           TTT
           ...`,
-      "T",
-      new Rect(0, 0, 3, 2)
+      "T"
     );
   }
 }

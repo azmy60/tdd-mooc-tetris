@@ -1,15 +1,13 @@
-import { Rect } from "../Rect";
 import { Shape } from "./Shape";
-import { str } from "../utils";
+import { sqr } from "../utils";
 
 export class OShape extends Shape {
   constructor() {
     super(
-      str`.OO
+      sqr`.OO
           .OO
           ...`,
-      "O",
-      new Rect(1, 0, 2, 2)
+      "O"
     );
   }
 

@@ -1,4 +1,5 @@
 import { Rect } from "./Rect";
+import { MatrixString } from "./MatrixString";
 import { Vector2 } from "./Vector2";
 
 export function removeWhitespaces(str: string) {
@@ -11,8 +12,13 @@ export function make2DArray(size: Vector2, fill?: any) {
     .map(() => Array(size.x).fill(fill));
 }
 
-export function str(strings: TemplateStringsArray) {
-  return strings.raw[0].split("\n").map(removeWhitespaces);
+export function sqr(strings: TemplateStringsArray) {
+  return new MatrixString(
+    strings.raw[0]
+      .split("\n")
+      .map(removeWhitespaces)
+      .map((row) => row.split(""))
+  );
 }
 
 export function centerOf(rect: Rect, relativeTo: Rect) {
@@ -20,4 +26,24 @@ export function centerOf(rect: Rect, relativeTo: Rect) {
     Math.floor((rect.width - relativeTo.width) / 2),
     Math.floor((rect.height - relativeTo.height) / 2)
   );
+}
+
+/**
+ * Returns the index of the last element in the array where predicate is true, and -1
+ * otherwise.
+ * @param array The source array to search in
+ * @param predicate find calls predicate once for each element of the array, in descending
+ * order, until it finds one where predicate returns true. If such an element is found,
+ * findLastIndex immediately returns that element index. Otherwise, findLastIndex returns -1.
+ * source: https://stackoverflow.com/a/53187807/10012118
+ */
+export function findLastIndex<T>(
+  array: Array<T>,
+  predicate: (value: T, index: number, obj: T[]) => boolean
+): number {
+  let l = array.length;
+  while (l--) {
+    if (predicate(array[l], l, array)) return l;
+  }
+  return -1;
 }
