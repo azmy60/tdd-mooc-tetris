@@ -8,6 +8,7 @@ import { MatrixString } from "../MatrixString";
 
 export class Shape {
   readonly rect: Rect;
+  private landed: boolean = false;
   private listener?: ShapeListener;
   private collision?: Collision;
 
@@ -27,10 +28,18 @@ export class Shape {
   }
 
   moveDown() {
-    if (this.collision?.isLanded()) return;
+    if (this.landed) return;
+
+    if (this.collision?.isLanded()) {
+      return this.onLanded();
+    }
 
     this.rect.pos.add(new Vector2(0, 1));
-    if (this.collision?.isLanded()) this.listener?.onLanded();
+  }
+
+  private onLanded() {
+    this.landed = true;
+    this.listener?.onLanded();
   }
 
   moveLeft() {

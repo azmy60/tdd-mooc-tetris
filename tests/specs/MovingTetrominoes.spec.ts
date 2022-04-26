@@ -38,7 +38,7 @@ describe("Moving tetrominoes", () => {
     );
   });
 
-  it("cannot be moved beyond the board", () => {
+  it("cannot be moved left/right beyond the board", () => {
     for (let i = 0; i < 10; i++) board.moveLeft();
     expect(board.toString()).toEqualShape(
       `OO......
@@ -56,14 +56,17 @@ describe("Moving tetrominoes", () => {
        ........
        ........`
     );
+  });
 
+  it("cannot be moved down beyond the board", () => {
     for (let i = 0; i < 10; i++) board.moveDown();
     expect(board.toString()).toEqualShape(
       `........
        ........
        ........
-       ......OO
-       ......OO`
+       ...OO...
+       ...OO...`
     );
+    expect(board.hasFallingShape).toBeFalsy();
   });
 });

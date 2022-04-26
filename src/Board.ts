@@ -42,7 +42,7 @@ export class Board extends Timer implements ShapeListener {
   }
 
   onLanded() {
-    this.nextUpdate(this.lockDown, this);
+    this.lockDown();
   }
 
   private lockDown() {
