@@ -6,7 +6,8 @@ describe("Minos", () => {
                     ...`;
 
   it("return size", () => {
-    expect(minos.size).toBe(3);
+    expect(minos.width).toBe(3);
+    expect(minos.height).toBe(3);
   });
 
   it("return rows", () => {

@@ -12,7 +12,7 @@ export class Shape extends Rect {
   private collision?: Collision;
 
   constructor(public readonly minos: Minos) {
-    super(0, 0, minos.size, minos.size);
+    super(0, 0, minos.width, minos.height);
   }
 
   attachListener(listener: ShapeListener) {

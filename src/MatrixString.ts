@@ -1,6 +1,4 @@
 export class MatrixString {
-  public readonly size = this.string2D.length;
-
   constructor(private readonly string2D: string[][]) {}
 
   get rows() {
@@ -13,6 +11,10 @@ export class MatrixString {
       cols.push(this.rows.map((row) => row[i]));
     }
     return cols;
+  }
+
+  get width() {
+    return this.string2D.length;
   }
 
   get height() {
