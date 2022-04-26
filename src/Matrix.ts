@@ -37,7 +37,7 @@ export class Matrix extends Rect {
   }
 
   row(index: number) {
-    return this.strings.rows[index];
+    return this.strings.rows.at(index);
   }
 
   toString() {

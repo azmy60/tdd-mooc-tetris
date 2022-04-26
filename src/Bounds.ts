@@ -10,13 +10,11 @@ export class Bounds {
   constructor(shape: Shape) {
     this.left = shape.minos.cols.findIndex((col) => col.includes(shape.mino));
     this.top = shape.minos.rows.findIndex((row) => row.includes(shape.mino));
-    this.right =
-      this.left +
-      findLastIndex(shape.minos.cols, (col) => col.includes(shape.mino)) -
-      1;
-    this.bottom =
-      this.top +
-      findLastIndex(shape.minos.rows, (row) => row.includes(shape.mino)) -
-      1;
+    this.right = findLastIndex(shape.minos.cols, (col) =>
+      col.includes(shape.mino)
+    );
+    this.bottom = findLastIndex(shape.minos.rows, (row) =>
+      row.includes(shape.mino)
+    );
   }
 }

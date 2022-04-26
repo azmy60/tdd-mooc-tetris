@@ -18,17 +18,15 @@ export class Collision {
   }
 
   isTouchingRight() {
-    return this.position.x + this.bounds.right === this.matrix.width - 1;
+    return this.position.x + this.bounds.right + 1 === this.matrix.width;
   }
 
   private isLandedOnBlock() {
-    const nextRow = this.matrix
-      .row(this.position.y + this.bounds.bottom + 2)
-      ?.join("");
-    return !!nextRow && /[^\.]/.test(nextRow);
+    const nextRow = this.matrix.row(this.position.y + this.bounds.bottom + 1);
+    return !!nextRow && /[^\.]/.test(nextRow?.join(""));
   }
 
   private isLandedOnFloor() {
-    return this.position.y + this.bounds.bottom === this.matrix.height - 2;
+    return this.position.y + this.bounds.bottom + 1 === this.matrix.height;
   }
 }
