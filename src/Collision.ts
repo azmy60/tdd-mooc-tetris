@@ -19,7 +19,7 @@ export class Collision {
   }
 
   isTouchingRight() {
-    return this.right === this.matrix.width;
+    return this.isTouchingRightBlock() || this.isTouchingRightWall();
   }
 
   private isLandedOnBlock() {
@@ -42,6 +42,15 @@ export class Collision {
 
   private isTouchingLeftWall() {
     return this.left === this.matrix.x;
+  }
+
+  private isTouchingRightBlock() {
+    const rightCol = this.matrix.col(this.right)?.slice(this.top, this.bottom);
+    return !!rightCol && this.containsMino(rightCol);
+  }
+
+  private isTouchingRightWall() {
+    return this.right === this.matrix.width;
   }
 
   private containsMino(strings: string[]) {

@@ -16,7 +16,15 @@ export class MatrixString {
   }
 
   get cols() {
-    return this.rows.map((_, i, rows) => rows.map((row) => row[i]));
+    const cols = [];
+    for (let i = 0; i < this.height; i++) {
+      cols.push(this.rows.map((row) => row[i]));
+    }
+    return cols;
+  }
+
+  get height() {
+    return this.rows[0].length;
   }
 
   toString() {

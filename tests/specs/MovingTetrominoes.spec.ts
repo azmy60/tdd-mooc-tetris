@@ -91,5 +91,27 @@ describe("Moving tetrominoes", () => {
        OOTTT...
        OO......`
     );
+
+    moveFarRight(board);
+    moveFarDown(board);
+
+    board.drop(new OShape());
+    board.moveDown();
+    moveFarRight(board);
+    expect(board.toString()).toEqualShape(
+      `........
+       ....OO..
+       OO..OOT.
+       OO...TTT`
+    );
+
+    moveFarDown(board);
+    expect(board.toString()).toEqualShape(
+      `........
+       ....OO..
+       OO..OOT.
+       OO...TTT`
+    );
+    expect(board.hasFallingShape).toBeFalsy();
   });
 });
