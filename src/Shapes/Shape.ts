@@ -4,19 +4,15 @@ import { Matrix } from "../Matrix";
 import { Rect } from "../Rect";
 import { ShapeListener } from "./ShapeListener";
 import { Vector2 } from "../Vector2";
-import { MatrixString } from "../MatrixString";
+import { Minos } from "../Minos";
 
-export class Shape {
-  readonly rect: Rect;
+export class Shape extends Rect {
   private landed: boolean = false;
   private listener?: ShapeListener;
   private collision?: Collision;
 
-  constructor(
-    public readonly minos: MatrixString,
-    public readonly mino: string
-  ) {
-    this.rect = new Rect(0, 0, minos.size, minos.size);
+  constructor(public readonly minos: Minos) {
+    super(0, 0, minos.size, minos.size);
   }
 
   attachListener(listener: ShapeListener) {
@@ -24,40 +20,37 @@ export class Shape {
   }
 
   setupCollision(matrix: Matrix) {
-    this.collision = new Collision(this.rect.pos, new Bounds(this), matrix);
+    this.collision = new Collision(this.pos, new Bounds(this), matrix);
   }
 
   moveDown() {
     if (this.landed) return;
 
-    if (this.collision?.isLanded()) {
-      return this.onLanded();
+    if (this.collision?.collidingDown()) {
+      this.landed = true;
+      this.listener?.onLanded();
+      return;
     }
 
-    this.rect.pos.add(new Vector2(0, 1));
-  }
-
-  private onLanded() {
-    this.landed = true;
-    this.listener?.onLanded();
+    this.pos.add(Vector2.down);
   }
 
   moveLeft() {
-    if (this.collision?.isTouchingLeft()) return;
-    this.rect.pos.add(Vector2.left);
+    if (this.collision?.collidingLeft()) return;
+    this.pos.add(Vector2.left);
   }
 
   moveRight() {
-    if (this.collision?.isTouchingRight()) return;
-    this.rect.pos.add(Vector2.right);
+    if (this.collision?.collidingRight()) return;
+    this.pos.add(Vector2.right);
   }
 
   rotateRight() {
-    return new Shape(this.minos.rotateRight(), this.mino);
+    return new Shape(this.minos.rotateRight());
   }
 
   rotateLeft() {
-    return new Shape(this.minos.rotateLeft(), this.mino);
+    return new Shape(this.minos.rotateLeft());
   }
 
   toString() {
@@ -66,9 +59,8 @@ export class Shape {
 
   contains(point: Vector2) {
     return (
-      this.rect.contains(point) &&
-      this.minos.rows[point.y - this.rect.y][point.x - this.rect.x] ===
-        this.mino
+      super.contains(point) &&
+      this.minos.contains(new Vector2(point.x - this.x, point.y - this.y))
     );
   }
 }

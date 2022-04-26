@@ -1,15 +1,14 @@
 import { Shape } from "../../src/Shapes";
-import { sqr } from "../../src/utils";
+import { mns } from "../../src/utils";
 
 describe("Rotating 3x3 shape", () => {
   let shape: Shape;
 
   beforeEach(() => {
     shape = new Shape(
-      sqr`ABC
+      mns`ABC
           DEF
-          GHI`,
-      ""
+          GHI`
     );
   });
 

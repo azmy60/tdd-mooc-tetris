@@ -8,13 +8,17 @@ export class Bounds {
   public readonly bottom: number;
 
   constructor(shape: Shape) {
-    this.left = shape.minos.cols.findIndex((col) => col.includes(shape.mino));
-    this.top = shape.minos.rows.findIndex((row) => row.includes(shape.mino));
+    this.left = shape.minos.cols.findIndex((col) =>
+      col.includes(shape.minos.mino)
+    );
+    this.top = shape.minos.rows.findIndex((row) =>
+      row.includes(shape.minos.mino)
+    );
     this.right = findLastIndex(shape.minos.cols, (col) =>
-      col.includes(shape.mino)
+      col.includes(shape.minos.mino)
     );
     this.bottom = findLastIndex(shape.minos.rows, (row) =>
-      row.includes(shape.mino)
+      row.includes(shape.minos.mino)
     );
   }
 }

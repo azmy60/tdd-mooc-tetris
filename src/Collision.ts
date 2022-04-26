@@ -10,15 +10,15 @@ export class Collision {
     private readonly matrix: Matrix
   ) {}
 
-  isLanded() {
+  collidingDown() {
     return this.isLandedOnBlock() || this.isLandedOnFloor();
   }
 
-  isTouchingLeft() {
+  collidingLeft() {
     return this.isTouchingLeftBlock() || this.isTouchingLeftWall();
   }
 
-  isTouchingRight() {
+  collidingRight() {
     return this.isTouchingRightBlock() || this.isTouchingRightWall();
   }
 

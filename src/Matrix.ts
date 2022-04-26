@@ -16,19 +16,15 @@ export class Matrix extends Rect {
   }
 
   apply(shape: Shape) {
-    this.fill(shape.mino, shape.contains, shape);
-  }
-
-  fill(char: string, filter: (pos: Vector2) => boolean, thisArg?: any) {
     this.strings.rows.forEach((row, y) =>
       row
         .map((_, x) => new Vector2(x, y))
-        .filter((pos) => filter.call(thisArg, pos))
-        .forEach((pos) => this.put(char, pos))
+        .filter((pos) => shape.contains(pos))
+        .forEach((pos) => this.put(shape.minos.mino, pos))
     );
   }
 
-  put(char: string, pos: Vector2) {
+  private put(char: string, pos: Vector2) {
     this.strings.rows[pos.y][pos.x] = char;
   }
 

@@ -1,7 +1,8 @@
 import { Matrix } from "../../src/Matrix";
+import { TShape } from "../../src/Shapes";
 import { Vector2 } from "../../src/Vector2";
 
-describe("Canvas", () => {
+describe("Matrix", () => {
   let matrix: Matrix;
 
   beforeEach(() => {
@@ -16,23 +17,12 @@ describe("Canvas", () => {
     );
   });
 
-  it("can put characters", () => {
-    matrix.put("X", new Vector2(1, 0));
-    matrix.put("Y", new Vector2(2, 2));
+  it("can draw a shape", () => {
+    matrix.apply(new TShape());
 
     expect(matrix.toString()).toEqualShape(
-      `.X.
-       ...
-       ..Y`
-    );
-  });
-
-  it("can fill each cells with characters by filter, like Array.filter (not really but kinda)", () => {
-    matrix.fill("X", (pos) => pos.x > 0 && pos.y < 2);
-
-    expect(matrix.toString()).toEqualShape(
-      `.XX
-       .XX
+      `.T.
+       TTT
        ...`
     );
   });

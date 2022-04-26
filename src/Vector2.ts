@@ -11,6 +11,10 @@ export class Vector2 {
     return new Vector2(1, 0);
   }
 
+  static get down() {
+    return new Vector2(0, 1);
+  }
+
   constructor(public x: number, public y: number) {}
 
   add(v: Vector2): void;

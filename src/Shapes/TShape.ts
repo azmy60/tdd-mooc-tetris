@@ -1,13 +1,10 @@
 import { Shape } from "./Shape";
-import { sqr } from "../utils";
+import { mns } from "../utils";
 
 export class TShape extends Shape {
   constructor() {
-    super(
-      sqr`.T.
-          TTT
-          ...`,
-      "T"
-    );
+    super(mns`.T.
+              TTT
+              ...`);
   }
 }

@@ -1,24 +1,24 @@
 import { Rect } from "./Rect";
-import { MatrixString } from "./MatrixString";
 import { Vector2 } from "./Vector2";
+import { Minos } from "./Minos";
 
 export function removeWhitespaces(str: string) {
-  return str.replaceAll(/\s/g, "");
+  return str.replaceAll(/[\s]*/g, "");
 }
 
 export function make2DArray(size: Vector2, fill?: any) {
-  return Array(size.y)
-    .fill(null)
-    .map(() => Array(size.x).fill(fill));
+  return new Array(size.y).fill(null).map(() => Array(size.x).fill(fill));
 }
 
-export function sqr(strings: TemplateStringsArray) {
-  return new MatrixString(
-    strings.raw[0]
-      .split("\n")
-      .map(removeWhitespaces)
-      .map((row) => row.split(""))
-  );
+export function mns(strings: TemplateStringsArray) {
+  const str = strings.raw[0];
+  const str2d = str
+    .split("\n")
+    .map(removeWhitespaces)
+    .map((row) => row.split(""));
+  const mino = str.replace(/[\s\.]*/g, "")[0];
+
+  return new Minos(str2d, mino);
 }
 
 export function centerOf(rect: Rect, relativeTo: Rect) {

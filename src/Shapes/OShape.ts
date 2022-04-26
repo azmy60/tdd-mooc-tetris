@@ -1,14 +1,11 @@
 import { Shape } from "./Shape";
-import { sqr } from "../utils";
+import { mns } from "../utils";
 
 export class OShape extends Shape {
   constructor() {
-    super(
-      sqr`.OO
-          .OO
-          ...`,
-      "O"
-    );
+    super(mns`.OO
+              .OO
+              ...`);
   }
 
   rotateLeft = this.rotateRight;

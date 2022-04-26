@@ -1,16 +1,16 @@
-import { sqr } from "../../src/utils";
+import { mns } from "../../src/utils";
 
-describe("SquareString", () => {
-  const square = sqr`BRU
-                     HH.
-                     ...`;
+describe("Minos", () => {
+  const minos = mns`BRU
+                    HH.
+                    ...`;
 
   it("return size", () => {
-    expect(square.size).toBe(3);
+    expect(minos.size).toBe(3);
   });
 
   it("return rows", () => {
-    expect(square.rows).toStrictEqual([
+    expect(minos.rows).toStrictEqual([
       "BRU".split(""),
       "HH.".split(""),
       "...".split(""),
@@ -18,7 +18,7 @@ describe("SquareString", () => {
   });
 
   it("return columns", () => {
-    expect(square.cols).toStrictEqual([
+    expect(minos.cols).toStrictEqual([
       "BH.".split(""),
       "RH.".split(""),
       "U..".split(""),
@@ -26,13 +26,13 @@ describe("SquareString", () => {
   });
 
   it("can rotate", () => {
-    expect(square.rotateLeft().rows).toStrictEqual([
+    expect(minos.rotateLeft().rows).toStrictEqual([
       "U..".split(""),
       "RH.".split(""),
       "BH.".split(""),
     ]);
 
-    expect(square.rotateRight().rows).toStrictEqual([
+    expect(minos.rotateRight().rows).toStrictEqual([
       ".HB".split(""),
       ".HR".split(""),
       "..U".split(""),

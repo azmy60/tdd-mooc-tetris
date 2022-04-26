@@ -3,14 +3,6 @@ export class MatrixString {
 
   constructor(private readonly string2D: string[][]) {}
 
-  rotateLeft() {
-    return new MatrixString(this.cols.reverse());
-  }
-
-  rotateRight() {
-    return new MatrixString(this.cols.map((col) => col.reverse()));
-  }
-
   get rows() {
     return this.string2D;
   }

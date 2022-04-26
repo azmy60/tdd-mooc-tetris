@@ -15,13 +15,14 @@ export class Board extends Timer implements ShapeListener {
   }
 
   drop(shape: Shape) {
-    if (this.hasFallingShape) {
+    if (this.shape) {
       throw Error("already falling");
     }
 
     shape.attachListener(this);
     shape.setupCollision(this.matrix);
-    shape.rect.pos.x = centerOf(this.matrix, shape.rect).x;
+    shape.pos.x = centerOf(this.matrix, shape).x;
+
     this.shape = shape;
   }
 
