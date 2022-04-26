@@ -1,20 +1,32 @@
 import { Board } from "../../src/Board";
-import { OShape } from "../../src/Shapes";
+import { OShape, TShape } from "../../src/Shapes";
+
+function moveFarLeft(board: Board) {
+  for (let i = 0; i < 10; i++) board.moveLeft();
+}
+
+function moveFarRight(board: Board) {
+  for (let i = 0; i < 10; i++) board.moveRight();
+}
+
+function moveFarDown(board: Board) {
+  for (let i = 0; i < 10; i++) board.moveDown();
+}
 
 describe("Moving tetrominoes", () => {
   let board: Board;
 
   beforeEach(() => {
-    board = new Board(8, 5);
-    board.drop(new OShape());
+    board = new Board(8, 4);
   });
 
   it("can be moved", () => {
+    board.drop(new OShape());
+
     board.moveLeft();
     expect(board.toString()).toEqualShape(
       `..OO....
        ..OO....
-       ........
        ........
        ........`
     );
@@ -24,7 +36,6 @@ describe("Moving tetrominoes", () => {
       `...OO...
        ...OO...
        ........
-       ........
        ........`
     );
 
@@ -33,40 +44,52 @@ describe("Moving tetrominoes", () => {
       `........
        ...OO...
        ...OO...
-       ........
        ........`
     );
   });
 
-  it("cannot be moved left/right beyond the board", () => {
-    for (let i = 0; i < 10; i++) board.moveLeft();
+  it("cannot be moved beyond the board", () => {
+    board.drop(new OShape());
+
+    moveFarLeft(board);
     expect(board.toString()).toEqualShape(
       `OO......
        OO......
        ........
-       ........
        ........`
     );
 
-    for (let i = 0; i < 10; i++) board.moveRight();
+    moveFarRight(board);
     expect(board.toString()).toEqualShape(
       `......OO
        ......OO
        ........
-       ........
        ........`
     );
-  });
 
-  it("cannot be moved down beyond the board", () => {
-    for (let i = 0; i < 10; i++) board.moveDown();
+    moveFarDown(board);
     expect(board.toString()).toEqualShape(
       `........
        ........
-       ........
-       ...OO...
-       ...OO...`
+       ......OO
+       ......OO`
     );
     expect(board.hasFallingShape).toBeFalsy();
+  });
+
+  it("cannot be moved through other blocks", () => {
+    board.drop(new OShape());
+    moveFarLeft(board);
+    moveFarDown(board);
+
+    board.drop(new TShape());
+    board.moveDown();
+    moveFarLeft(board);
+    expect(board.toString()).toEqualShape(
+      `........
+       ...T....
+       OOTTT...
+       OO......`
+    );
   });
 });

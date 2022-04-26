@@ -40,6 +40,10 @@ export class Matrix extends Rect {
     return this.strings.rows.at(index);
   }
 
+  col(index: number) {
+    return this.strings.cols.at(index);
+  }
+
   toString() {
     return this.strings.toString();
   }
