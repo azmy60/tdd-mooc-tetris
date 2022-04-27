@@ -5,7 +5,7 @@ export class MatrixString {
     return this.string2D;
   }
 
-  get cols() {
+  cols() {
     const cols = [];
     for (let i = 0; i < this.height; i++) {
       cols.push(this.rows.map((row) => row[i]));

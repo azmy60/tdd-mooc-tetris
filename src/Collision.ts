@@ -41,7 +41,7 @@ export class Collision {
   }
 
   private isTouchingLeftWall() {
-    return this.left === this.matrix.x;
+    return this.left === 0;
   }
 
   private isTouchingRightBlock() {

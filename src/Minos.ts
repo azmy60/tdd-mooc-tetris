@@ -7,12 +7,12 @@ export class Minos extends MatrixString {
   }
 
   rotateLeft() {
-    return new Minos(this.cols.reverse(), this.mino);
+    return new Minos(this.cols().reverse(), this.mino);
   }
 
   rotateRight() {
     return new Minos(
-      this.cols.map((col) => col.reverse()),
+      this.cols().map((col) => col.reverse()),
       this.mino
     );
   }

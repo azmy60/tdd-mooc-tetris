@@ -13,7 +13,7 @@ export class Shape extends Rect {
   private collision?: Collision;
 
   constructor(public readonly minos: Minos) {
-    super(0, 0, minos.width, minos.height);
+    super(Vector2.zero, vec2(minos.width, minos.height));
   }
 
   attachListener(listener: ShapeListener) {
@@ -22,6 +22,10 @@ export class Shape extends Rect {
 
   setupCollision(matrix: Matrix) {
     this.collision = new Collision(this.pos, new Bounds(this), matrix);
+  }
+
+  place(x: number, y: number) {
+    this.pos.set(x, y);
   }
 
   moveDown() {

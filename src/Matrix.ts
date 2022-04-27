@@ -1,19 +1,18 @@
 import { MatrixString } from "./MatrixString";
-import { Rect } from "./Rect";
 import { Shape } from "./Shapes";
 import { make2DArray, vec2 } from "./utils";
 import { Vector2 } from "./Vector2";
 
-export class Matrix extends Rect {
+export class Matrix {
   // FIXME update MatrixString so it can be used for rectangles (non-square).
-  private strings: MatrixString;
 
-  constructor(size: Vector2, strings?: MatrixString) {
-    super(Vector2.zero, size);
-
-    if (!strings) strings = new MatrixString(make2DArray(this.size, "."));
-    this.strings = strings;
-  }
+  constructor(
+    public readonly width: number,
+    public readonly height: number,
+    private readonly strings: MatrixString = new MatrixString(
+      make2DArray(width, height, ".")
+    )
+  ) {}
 
   apply(shape: Shape) {
     this.strings.rows.forEach((row, y) =>
@@ -29,7 +28,7 @@ export class Matrix extends Rect {
   }
 
   copy() {
-    return new Matrix(this.size, this.strings.copy());
+    return new Matrix(this.width, this.height, this.strings.copy());
   }
 
   row(index: number) {
@@ -37,7 +36,7 @@ export class Matrix extends Rect {
   }
 
   col(index: number) {
-    return this.strings.cols.at(index);
+    return this.strings.cols().at(index);
   }
 
   toString() {

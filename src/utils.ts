@@ -1,4 +1,3 @@
-import { Rect } from "./Rect";
 import { Vector2 } from "./Vector2";
 import { Minos } from "./Minos";
 
@@ -6,8 +5,8 @@ export function removeWhitespaces(str: string) {
   return str.replaceAll(/[\s]*/g, "");
 }
 
-export function make2DArray(size: Vector2, fill?: any) {
-  return new Array(size.y).fill(null).map(() => Array(size.x).fill(fill));
+export function make2DArray(width: number, height: number, fill?: any) {
+  return new Array(height).fill(null).map(() => Array(width).fill(fill));
 }
 
 export function mns(strings: TemplateStringsArray) {
@@ -19,13 +18,6 @@ export function mns(strings: TemplateStringsArray) {
   const mino = str.replace(/[\s\.]*/g, "")[0];
 
   return new Minos(str2d, mino);
-}
-
-export function centerOf(rect: Rect, relativeTo: Rect) {
-  return vec2(
-    Math.floor((rect.width - relativeTo.width) / 2),
-    Math.floor((rect.height - relativeTo.height) / 2)
-  );
 }
 
 /**

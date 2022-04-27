@@ -19,7 +19,7 @@ describe("Minos", () => {
   });
 
   it("return columns", () => {
-    expect(minos.cols).toStrictEqual([
+    expect(minos.cols()).toStrictEqual([
       "BH.".split(""),
       "RH.".split(""),
       "U..".split(""),

@@ -19,6 +19,11 @@ export class Vector2 {
 
   constructor(public x: number, public y: number) {}
 
+  set(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+  }
+
   add(v: Vector2) {
     this.x += v.x;
     this.y += v.y;
