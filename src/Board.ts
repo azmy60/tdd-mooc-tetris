@@ -4,16 +4,14 @@ import { Timer } from "./Timer";
 import { ShapeListener } from "./Shapes/ShapeListener";
 
 export class Board extends Timer implements ShapeListener {
-  private readonly matrix: Matrix;
-  private shape: Shape | undefined;
+  private _shape: Shape | undefined;
 
-  constructor(width: number, height: number) {
+  constructor(private readonly matrix: Matrix) {
     super();
-    this.matrix = new Matrix(width, height);
   }
 
   drop(shape: Shape) {
-    if (this.shape) {
+    if (this._shape) {
       throw Error("already falling");
     }
 
@@ -21,19 +19,7 @@ export class Board extends Timer implements ShapeListener {
     shape.setupCollision(this.matrix);
     shape.place(Math.floor((this.matrix.width - shape.width) / 2), 0);
 
-    this.shape = shape;
-  }
-
-  moveLeft() {
-    this.shape?.moveLeft();
-  }
-
-  moveRight() {
-    this.shape?.moveRight();
-  }
-
-  moveDown() {
-    this.shape?.moveDown();
+    this._shape = shape;
   }
 
   protected onUpdate() {
@@ -45,19 +31,19 @@ export class Board extends Timer implements ShapeListener {
   }
 
   private lockDown() {
-    this.matrix.apply(this.shape!);
-    this.shape = undefined;
+    this.matrix.apply(this._shape!);
+    this._shape = undefined;
   }
 
   toString() {
-    if (!this.shape) return this.matrix.toString();
+    if (!this._shape) return this.matrix.toString();
 
     const matrix = this.matrix.copy();
-    matrix.apply(this.shape);
+    matrix.apply(this._shape);
     return matrix.toString();
   }
 
-  get hasFallingShape() {
-    return !!this.shape;
+  get shape() {
+    return this._shape;
   }
 }

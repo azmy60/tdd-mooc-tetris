@@ -1,9 +1,10 @@
 import { Board } from "../../src/Board";
+import { Matrix } from "../../src/Matrix";
 import { TShape } from "../../src/Shapes";
 
 describe("Falling tetrominoes", () => {
   it("The board starts empty", () => {
-    expect(new Board(3, 3).toString()).toEqualShape(
+    expect(new Board(Matrix.of(3, 3)).toString()).toEqualShape(
       `...
        ...
        ...`
@@ -14,7 +15,7 @@ describe("Falling tetrominoes", () => {
     let board: Board;
 
     beforeEach(() => {
-      board = new Board(6, 4);
+      board = new Board(Matrix.of(6, 4));
       board.drop(new TShape());
     });
 
@@ -47,7 +48,7 @@ describe("Falling tetrominoes", () => {
          ..T...
          .TTT..`
       );
-      expect(board.hasFallingShape).toBeTruthy();
+      expect(board.shape).toBeTruthy();
     });
 
     it("at most one block may be falling at a time", () => {
@@ -62,7 +63,7 @@ describe("Falling tetrominoes", () => {
     let board: Board;
 
     beforeEach(() => {
-      board = new Board(10, 6);
+      board = new Board(Matrix.of(10, 6));
     });
 
     function dropAndFall() {
@@ -82,7 +83,7 @@ describe("Falling tetrominoes", () => {
          ....T.....
          ...TTT....`
       );
-      expect(board.hasFallingShape).toBeFalsy();
+      expect(board.shape).toBeFalsy();
     });
 
     it("stop when they land on another tetromino", () => {

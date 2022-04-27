@@ -10,14 +10,15 @@ export function make2DArray(width: number, height: number, fill?: any) {
 }
 
 export function mns(strings: TemplateStringsArray) {
-  const str = strings.raw[0];
-  const str2d = str
+  const mino = strings.raw[0].replace(/[\s\.]*/g, "")[0];
+  return new Minos(str2d(strings), mino);
+}
+
+export function str2d(strings: TemplateStringsArray) {
+  return strings.raw[0]
     .split("\n")
     .map(removeWhitespaces)
     .map((row) => row.split(""));
-  const mino = str.replace(/[\s\.]*/g, "")[0];
-
-  return new Minos(str2d, mino);
 }
 
 /**

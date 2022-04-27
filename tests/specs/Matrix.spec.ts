@@ -2,14 +2,8 @@ import { Matrix } from "../../src/Matrix";
 import { TShape } from "../../src/Shapes";
 
 describe("Matrix", () => {
-  let matrix: Matrix;
-
-  beforeEach(() => {
-    matrix = new Matrix(3, 3);
-  });
-
   it("initial state", () => {
-    expect(matrix.toString()).toEqualShape(
+    expect(Matrix.of(3, 3).toString()).toEqualShape(
       `...
        ...
        ...`
@@ -17,6 +11,7 @@ describe("Matrix", () => {
   });
 
   it("can draw a shape", () => {
+    const matrix = Matrix.of(3, 3);
     matrix.apply(new TShape());
 
     expect(matrix.toString()).toEqualShape(

@@ -1,117 +1,142 @@
 import { Board } from "../../src/Board";
-import { OShape, TShape } from "../../src/Shapes";
+import { Matrix } from "../../src/Matrix";
+import { MatrixString } from "../../src/MatrixString";
+import { IShape, OShape, Shape, TShape } from "../../src/Shapes";
+import { str2d } from "../../src/utils";
 
-function moveFarLeft(board: Board) {
-  for (let i = 0; i < 10; i++) board.moveLeft();
+function moveDown(shape?: Shape, repeatCount: number = 1) {
+  for (let i = 0; i < repeatCount; i++) shape?.moveDown();
 }
 
-function moveFarRight(board: Board) {
-  for (let i = 0; i < 10; i++) board.moveRight();
+function moveLeft(shape?: Shape, repeatCount: number = 1) {
+  for (let i = 0; i < repeatCount; i++) shape?.moveLeft();
 }
 
-function moveFarDown(board: Board) {
-  for (let i = 0; i < 10; i++) board.moveDown();
+function moveRight(shape?: Shape, repeatCount: number = 1) {
+  for (let i = 0; i < repeatCount; i++) shape?.moveRight();
 }
 
 describe("Moving tetrominoes", () => {
-  let board: Board;
-
-  beforeEach(() => {
-    board = new Board(8, 4);
-  });
-
   it("can be moved", () => {
+    const board = new Board(Matrix.of(6, 4));
     board.drop(new OShape());
 
-    board.moveLeft();
+    board.shape?.moveLeft();
     expect(board.toString()).toEqualShape(
-      `..OO....
-       ..OO....
-       ........
-       ........`
+      `.OO...
+       .OO...
+       ......
+       ......`
     );
 
-    board.moveRight();
+    board.shape?.moveRight();
     expect(board.toString()).toEqualShape(
-      `...OO...
-       ...OO...
-       ........
-       ........`
+      `..OO..
+       ..OO..
+       ......
+       ......`
     );
 
-    board.moveDown();
+    board.shape?.moveDown();
     expect(board.toString()).toEqualShape(
-      `........
-       ...OO...
-       ...OO...
-       ........`
+      `......
+       ..OO..
+       ..OO..
+       ......`
     );
   });
 
   it("cannot be moved beyond the board", () => {
+    const board = new Board(Matrix.of(6, 4));
     board.drop(new OShape());
 
-    moveFarLeft(board);
+    moveLeft(board.shape, 10);
     expect(board.toString()).toEqualShape(
-      `OO......
-       OO......
-       ........
-       ........`
+      `OO....
+       OO....
+       ......
+       ......`
     );
 
-    moveFarRight(board);
+    moveRight(board.shape, 10);
     expect(board.toString()).toEqualShape(
-      `......OO
-       ......OO
-       ........
-       ........`
+      `....OO
+       ....OO
+       ......
+       ......`
     );
 
-    moveFarDown(board);
+    moveDown(board.shape, 10);
     expect(board.toString()).toEqualShape(
-      `........
-       ........
-       ......OO
-       ......OO`
+      `......
+       ......
+       ....OO
+       ....OO`
     );
-    expect(board.hasFallingShape).toBeFalsy();
+    expect(board.shape).toBeFalsy();
   });
 
   it("cannot be moved through other blocks", () => {
-    board.drop(new OShape());
-    moveFarLeft(board);
-    moveFarDown(board);
-
-    board.drop(new TShape());
-    board.moveDown();
-    moveFarLeft(board);
-    expect(board.toString()).toEqualShape(
-      `........
-       ...T....
-       OOTTT...
-       OO......`
+    const board = new Board(
+      new Matrix(
+        new MatrixString(str2d`........
+                               ........
+                               ........
+                               ........
+                               ........
+                               OO....T.
+                               OO...TTT`)
+      )
     );
 
-    moveFarRight(board);
-    moveFarDown(board);
-
     board.drop(new OShape());
-    board.moveDown();
-    moveFarRight(board);
+    moveDown(board.shape, 4);
+    moveLeft(board.shape, 10);
     expect(board.toString()).toEqualShape(
       `........
+       ........
+       ........
+       ........
+       ..OO....
+       OOOO..T.
+       OO...TTT`
+    );
+
+    moveRight(board.shape, 10);
+    expect(board.toString()).toEqualShape(
+      `........
+       ........
+       ........
+       ........
        ....OO..
        OO..OOT.
        OO...TTT`
     );
 
-    moveFarDown(board);
+    moveDown(board.shape, 10);
     expect(board.toString()).toEqualShape(
       `........
+       ........
+       ........
+       ........
        ....OO..
        OO..OOT.
        OO...TTT`
     );
-    expect(board.hasFallingShape).toBeFalsy();
+    expect(board.shape).toBeFalsy();
+
+    // board.drop(new IShape());
+    // board.moveRight();
+    // board.moveRight();
+    // moveFarDown(board);
+    // expect(board.toString()).toEqualShape(
+    //   `........
+    //    ........
+    //    ........
+    //    ..TIIII.
+    //    .TTTOO..
+    //    OO..OOT.
+    //    OO...TTT`
+    // );
   });
 });

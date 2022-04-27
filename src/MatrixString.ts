@@ -1,9 +1,5 @@
 export class MatrixString {
-  constructor(private readonly string2D: string[][]) {}
-
-  get rows() {
-    return this.string2D;
-  }
+  constructor(public readonly rows: string[][]) {}
 
   cols() {
     const cols = [];
@@ -14,11 +10,11 @@ export class MatrixString {
   }
 
   get width() {
-    return this.string2D.length;
+    return this.rows[0].length;
   }
 
   get height() {
-    return this.rows[0].length;
+    return this.rows.length;
   }
 
   toString() {
