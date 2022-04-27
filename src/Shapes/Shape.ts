@@ -5,6 +5,7 @@ import { Rect } from "../Rect";
 import { ShapeListener } from "./ShapeListener";
 import { Vector2 } from "../Vector2";
 import { Minos } from "../Minos";
+import { vec2 } from "../utils";
 
 export class Shape extends Rect {
   private landed: boolean = false;
@@ -60,7 +61,7 @@ export class Shape extends Rect {
   contains(point: Vector2) {
     return (
       super.contains(point) &&
-      this.minos.contains(new Vector2(point.x - this.x, point.y - this.y))
+      this.minos.contains(vec2(point.x - this.x, point.y - this.y))
     );
   }
 }

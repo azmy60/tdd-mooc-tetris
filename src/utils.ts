@@ -22,7 +22,7 @@ export function mns(strings: TemplateStringsArray) {
 }
 
 export function centerOf(rect: Rect, relativeTo: Rect) {
-  return new Vector2(
+  return vec2(
     Math.floor((rect.width - relativeTo.width) / 2),
     Math.floor((rect.height - relativeTo.height) / 2)
   );
@@ -46,4 +46,8 @@ export function findLastIndex<T>(
     if (predicate(array[l], l, array)) return l;
   }
   return -1;
+}
+
+export function vec2(x: number, y: number) {
+  return new Vector2(x, y);
 }

@@ -1,3 +1,4 @@
+import { vec2 } from "./utils";
 import { Vector2 } from "./Vector2";
 
 export class Rect {
@@ -8,8 +9,8 @@ export class Rect {
   constructor(x: number, y: number, width: number, height: number);
   constructor(xposrect: any, ysize?: any, width?: number, height?: number) {
     if (typeof xposrect === "number") {
-      this.pos = new Vector2(xposrect, ysize);
-      this.size = new Vector2(width!, height!);
+      this.pos = vec2(xposrect, ysize);
+      this.size = vec2(width!, height!);
     } else {
       this.pos = xposrect as Vector2;
       this.size = ysize as Vector2;

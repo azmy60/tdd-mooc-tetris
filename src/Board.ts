@@ -1,9 +1,8 @@
 import { Matrix } from "./Matrix";
 import { Shape } from "./Shapes";
 import { Timer } from "./Timer";
-import { Vector2 } from "./Vector2";
 import { ShapeListener } from "./Shapes/ShapeListener";
-import { centerOf } from "./utils";
+import { centerOf, vec2 } from "./utils";
 
 export class Board extends Timer implements ShapeListener {
   private readonly matrix: Matrix;
@@ -11,7 +10,7 @@ export class Board extends Timer implements ShapeListener {
 
   constructor(width: number, height: number) {
     super();
-    this.matrix = new Matrix(new Vector2(width, height));
+    this.matrix = new Matrix(vec2(width, height));
   }
 
   drop(shape: Shape) {

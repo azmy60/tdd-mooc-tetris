@@ -1,3 +1,4 @@
+import { vec2 } from "../../src/utils";
 import { Vector2 } from "../../src/Vector2";
 
 describe("Vector2", () => {
@@ -10,7 +11,7 @@ describe("Vector2", () => {
 
   it("addition between 2 vectors", () => {
     const v = Vector2.zero;
-    v.add(2, 3);
+    v.add(vec2(2, 3));
 
     expect(v.x).toBe(2);
     expect(v.y).toBe(3);
@@ -18,10 +19,9 @@ describe("Vector2", () => {
 
   it("subtraction between 2 vectors", () => {
     const v = Vector2.zero;
-    v.add(2, 3);
-    v.subtract(5, 1);
+    v.subtract(vec2(5, 1));
 
-    expect(v.x).toBe(-3);
-    expect(v.y).toBe(2);
+    expect(v.x).toBe(-5);
+    expect(v.y).toBe(-1);
   });
 });

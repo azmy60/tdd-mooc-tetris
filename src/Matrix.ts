@@ -1,7 +1,7 @@
 import { MatrixString } from "./MatrixString";
 import { Rect } from "./Rect";
 import { Shape } from "./Shapes";
-import { make2DArray } from "./utils";
+import { make2DArray, vec2 } from "./utils";
 import { Vector2 } from "./Vector2";
 
 export class Matrix extends Rect {
@@ -18,7 +18,7 @@ export class Matrix extends Rect {
   apply(shape: Shape) {
     this.strings.rows.forEach((row, y) =>
       row
-        .map((_, x) => new Vector2(x, y))
+        .map((_, x) => vec2(x, y))
         .filter((pos) => shape.contains(pos))
         .forEach((pos) => this.put(shape.minos.mino, pos))
     );
