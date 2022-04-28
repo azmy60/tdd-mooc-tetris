@@ -4,33 +4,41 @@ import { Vector2 } from "./Vector2";
 
 export class Bounds {
   private matrix?: Matrix;
+  private pos?: Vector2;
 
   constructor(
-    private readonly left: Vector2[],
-    private readonly right: Vector2[],
-    private readonly bottom: Vector2[]
+    private readonly _left: Vector2[],
+    private readonly _right: Vector2[],
+    private readonly _bottom: Vector2[]
   ) {}
 
   attachMatrix(matrix: Matrix) {
     this.matrix = matrix;
   }
 
-  leftOf(shape: Vector2) {
-    return this.cellsFromMatrixByPoints(shape, this.left);
+  attachPosition(pos: Vector2) {
+    this.pos = pos;
   }
 
-  rightOf(shape: Vector2) {
-    return this.cellsFromMatrixByPoints(shape, this.right);
+  get left() {
+    return this.getMatrixCells(this._left);
   }
 
-  bottomOf(shape: Vector2) {
-    return this.cellsFromMatrixByPoints(shape, this.bottom);
+  get right() {
+    return this.getMatrixCells(this._right);
   }
 
-  private cellsFromMatrixByPoints(shape: Vector2, points: Vector2[]) {
+  get bottom() {
+    return this.getMatrixCells(this._bottom);
+  }
+
+  private getMatrixCells(points: Vector2[]) {
+    if (!this.pos) throw Error("Position is not attached.");
+    if (!this.matrix) throw Error("Matrix is not attached.");
+
     return points
-      .map((bound) => vec2(bound.x + shape.x, bound.y + shape.y))
-      .map((pos) => this.matrix?.cell(pos))
+      .map((bound) => vec2(bound.x + this.pos!.x, bound.y + this.pos!.y))
+      .map((pos) => this.matrix!.cell(pos))
       .filter((defined) => defined) as string[];
   }
 }

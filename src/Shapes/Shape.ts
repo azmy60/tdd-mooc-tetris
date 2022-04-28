@@ -9,11 +9,11 @@ import { vec2 } from "../utils";
 export class Shape extends Rect {
   private landed: boolean = false;
   private listener?: ShapeListener;
-  public readonly collision?: Collision;
+  public readonly collision: Collision;
 
-  constructor(public readonly minos: Minos, public readonly bounds: Bounds) {
+  constructor(public readonly minos: Minos, bounds: Bounds) {
     super(Vector2.zero, vec2(minos.width, minos.height));
-    this.collision = new Collision(this.pos, this.bounds);
+    this.collision = new Collision(bounds);
   }
 
   attachListener(listener: ShapeListener) {
@@ -27,7 +27,7 @@ export class Shape extends Rect {
   moveDown() {
     if (this.landed) return;
 
-    if (this.collision?.collidingDown()) {
+    if (this.collision.collidingDown()) {
       this.landed = true;
       this.listener?.onLanded();
       return;
@@ -37,21 +37,21 @@ export class Shape extends Rect {
   }
 
   moveLeft() {
-    if (this.collision?.collidingLeft()) return;
+    if (this.collision.collidingLeft()) return;
     this.pos.add(Vector2.left);
   }
 
   moveRight() {
-    if (this.collision?.collidingRight()) return;
+    if (this.collision.collidingRight()) return;
     this.pos.add(Vector2.right);
   }
 
   rotateRight() {
-    return new Shape(this.minos.rotateRight(), this.bounds);
+    return new Shape(this.minos.rotateRight(), this.collision.bounds);
   }
 
   rotateLeft() {
-    return new Shape(this.minos.rotateLeft(), this.bounds);
+    return new Shape(this.minos.rotateLeft(), this.collision.bounds);
   }
 
   toString() {

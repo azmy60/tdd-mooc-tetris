@@ -1,21 +1,20 @@
 import { Bounds } from "./Bounds";
-import { Vector2 } from "./Vector2";
 
 const RE_CONTAINS_MINO = /[^\.]/;
 
 export class Collision {
-  constructor(private readonly pos: Vector2, private readonly bounds: Bounds) {}
+  constructor(public readonly bounds: Bounds) {}
 
   collidingDown() {
-    return this.colliding(this.bounds.bottomOf(this.pos));
+    return this.colliding(this.bounds.bottom);
   }
 
   collidingLeft() {
-    return this.colliding(this.bounds.leftOf(this.pos));
+    return this.colliding(this.bounds.left);
   }
 
   collidingRight() {
-    return this.colliding(this.bounds.rightOf(this.pos));
+    return this.colliding(this.bounds.right);
   }
 
   private colliding(cells: string[]) {

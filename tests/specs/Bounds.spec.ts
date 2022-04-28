@@ -11,11 +11,12 @@ describe("Bounds", () => {
                              B..D
                              .EF.`)
     );
-    shape.bounds?.attachMatrix(matrix);
+    shape.collision.bounds.attachMatrix(matrix);
+    shape.collision.bounds.attachPosition(shape.pos);
 
-    expect(shape.bounds?.leftOf(shape.pos)).toStrictEqual(["A", "B"]);
-    expect(shape.bounds?.rightOf(shape.pos)).toStrictEqual(["C", "D"]);
-    expect(shape.bounds?.bottomOf(shape.pos)).toStrictEqual(["E", "F"]);
+    expect(shape.collision.bounds.left).toStrictEqual(["A", "B"]);
+    expect(shape.collision.bounds.right).toStrictEqual(["C", "D"]);
+    expect(shape.collision.bounds.bottom).toStrictEqual(["E", "F"]);
   });
 
   it("T Shape", () => {
@@ -25,11 +26,12 @@ describe("Bounds", () => {
                              B...D
                              .EFG.`)
     );
-    shape.bounds?.attachMatrix(matrix);
+    shape.collision.bounds.attachMatrix(matrix);
+    shape.collision.bounds.attachPosition(shape.pos);
 
-    expect(shape.bounds?.leftOf(shape.pos)).toStrictEqual(["A", "B"]);
-    expect(shape.bounds?.rightOf(shape.pos)).toStrictEqual(["C", "D"]);
-    expect(shape.bounds?.bottomOf(shape.pos)).toStrictEqual(["E", "F", "G"]);
+    expect(shape.collision.bounds.left).toStrictEqual(["A", "B"]);
+    expect(shape.collision.bounds.right).toStrictEqual(["C", "D"]);
+    expect(shape.collision.bounds.bottom).toStrictEqual(["E", "F", "G"]);
   });
 
   it("I Shape", () => {
@@ -38,16 +40,13 @@ describe("Bounds", () => {
       new MatrixString(str2d`A....B
                              .CDEF.`)
     );
-    shape.bounds?.attachMatrix(matrix);
+    shape.collision.bounds.attachMatrix(matrix);
+    shape.collision.bounds.attachPosition(shape.pos);
+
     shape.place(0, -2);
 
-    expect(shape.bounds?.leftOf(shape.pos)).toStrictEqual(["A"]);
-    expect(shape.bounds?.rightOf(shape.pos)).toStrictEqual(["B"]);
-    expect(shape.bounds?.bottomOf(shape.pos)).toStrictEqual([
-      "C",
-      "D",
-      "E",
-      "F",
-    ]);
+    expect(shape.collision.bounds.left).toStrictEqual(["A"]);
+    expect(shape.collision.bounds.right).toStrictEqual(["B"]);
+    expect(shape.collision.bounds.bottom).toStrictEqual(["C", "D", "E", "F"]);
   });
 });
