@@ -1,3 +1,4 @@
+import { Bounds } from "../../src/Bounds";
 import { Shape } from "../../src/Shapes";
 import { mns } from "../../src/utils";
 
@@ -8,7 +9,8 @@ describe("Rotating 3x3 shape", () => {
     shape = new Shape(
       mns`ABC
           DEF
-          GHI`
+          GHI`,
+      new Bounds([], [], [])
     );
   });
 

@@ -11,13 +11,13 @@ describe("Matrix", () => {
   });
 
   it("can draw a shape", () => {
-    const matrix = Matrix.of(3, 3);
+    const matrix = Matrix.of(5, 3);
     matrix.apply(new TShape());
 
     expect(matrix.toString()).toEqualShape(
-      `.T.
-       TTT
-       ...`
+      `..T..
+       .TTT.
+       .....`
     );
   });
 });

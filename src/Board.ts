@@ -16,7 +16,7 @@ export class Board extends Timer implements ShapeListener {
     }
 
     shape.attachListener(this);
-    shape.setupCollision(this.matrix);
+    shape.bounds.attachMatrix(this.matrix);
     shape.place(Math.floor((this.matrix.width - shape.width) / 2), 0);
 
     this._shape = shape;

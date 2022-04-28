@@ -1,75 +1,25 @@
 import { Bounds } from "./Bounds";
-import { Matrix } from "./Matrix";
 import { Vector2 } from "./Vector2";
 
-const RE_MINO = /[^\.]/;
+const RE_CONTAINS_MINO = /[^\.]/;
+
 export class Collision {
-  constructor(
-    private readonly pos: Vector2,
-    private readonly bounds: Bounds,
-    private readonly matrix: Matrix
-  ) {}
+  constructor(private readonly pos: Vector2, private readonly bounds: Bounds) {}
 
   collidingDown() {
-    return this.isLandedOnBlock() || this.isLandedOnFloor();
+    return this.colliding(this.bounds.bottomOf(this.pos));
   }
 
   collidingLeft() {
-    return this.isTouchingLeftBlock() || this.isTouchingLeftWall();
+    return this.colliding(this.bounds.leftOf(this.pos));
   }
 
   collidingRight() {
-    return this.isTouchingRightBlock() || this.isTouchingRightWall();
+    return this.colliding(this.bounds.rightOf(this.pos));
   }
 
-  private isLandedOnBlock() {
-    const bottomRow = this.matrix
-      .row(this.bottom)
-      ?.slice(this.left, this.right);
-    return !!bottomRow && this.containsMino(bottomRow);
-  }
-
-  private isLandedOnFloor() {
-    return this.bottom === this.matrix.height;
-  }
-
-  private isTouchingLeftBlock() {
-    const leftCol = this.matrix
-      .col(this.left - 1)
-      ?.slice(this.top, this.bottom);
-    return !!leftCol && this.containsMino(leftCol);
-  }
-
-  private isTouchingLeftWall() {
-    return this.left === 0;
-  }
-
-  private isTouchingRightBlock() {
-    const rightCol = this.matrix.col(this.right)?.slice(this.top, this.bottom);
-    return !!rightCol && this.containsMino(rightCol);
-  }
-
-  private isTouchingRightWall() {
-    return this.right === this.matrix.width;
-  }
-
-  private containsMino(strings: string[]) {
-    return RE_MINO.test(strings.join(""));
-  }
-
-  private get left() {
-    return this.pos.x + this.bounds.left;
-  }
-
-  private get right() {
-    return this.pos.x + this.bounds.right + 1;
-  }
-
-  private get bottom() {
-    return this.pos.y + this.bounds.bottom + 1;
-  }
-
-  private get top() {
-    return this.pos.y + this.bounds.top;
+  private colliding(cells: string[]) {
+    if (cells.length === 0) return true;
+    return RE_CONTAINS_MINO.test(cells.join(""));
   }
 }

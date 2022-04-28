@@ -1,6 +1,5 @@
 import { Bounds } from "../Bounds";
 import { Collision } from "../Collision";
-import { Matrix } from "../Matrix";
 import { Rect } from "../Rect";
 import { ShapeListener } from "./ShapeListener";
 import { Vector2 } from "../Vector2";
@@ -10,18 +9,15 @@ import { vec2 } from "../utils";
 export class Shape extends Rect {
   private landed: boolean = false;
   private listener?: ShapeListener;
-  private collision?: Collision;
+  public readonly collision?: Collision;
 
-  constructor(public readonly minos: Minos) {
+  constructor(public readonly minos: Minos, public readonly bounds: Bounds) {
     super(Vector2.zero, vec2(minos.width, minos.height));
+    this.collision = new Collision(this.pos, this.bounds);
   }
 
   attachListener(listener: ShapeListener) {
     this.listener = listener;
-  }
-
-  setupCollision(matrix: Matrix) {
-    this.collision = new Collision(this.pos, new Bounds(this), matrix);
   }
 
   place(x: number, y: number) {
@@ -51,11 +47,11 @@ export class Shape extends Rect {
   }
 
   rotateRight() {
-    return new Shape(this.minos.rotateRight());
+    return new Shape(this.minos.rotateRight(), this.bounds);
   }
 
   rotateLeft() {
-    return new Shape(this.minos.rotateLeft());
+    return new Shape(this.minos.rotateLeft(), this.bounds);
   }
 
   toString() {

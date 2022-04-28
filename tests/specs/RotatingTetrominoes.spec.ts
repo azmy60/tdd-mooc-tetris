@@ -13,7 +13,8 @@ function distinctOrientations(shape: Shape) {
   return distinct;
 }
 
-describe("The T shape", () => {
+// TODO use hardcoded rotated shapes
+describe.skip("The T shape", () => {
   const shape = new TShape();
 
   it("initial orientation", () => {
@@ -45,7 +46,7 @@ describe("The T shape", () => {
   });
 });
 
-describe("The I shape", () => {
+describe.skip("The I shape", () => {
   const shape = new IShape();
 
   it("initial orientation", () => {
@@ -83,7 +84,7 @@ describe("The I shape", () => {
   });
 });
 
-describe("The O shape", () => {
+describe.skip("The O shape", () => {
   const shape = new OShape();
 
   it("initial orientation", () => {

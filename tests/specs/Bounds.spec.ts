@@ -1,27 +1,53 @@
-import { Bounds } from "../../src/Bounds";
+import { Matrix } from "../../src/Matrix";
+import { MatrixString } from "../../src/MatrixString";
 import { IShape, OShape, TShape } from "../../src/Shapes";
+import { str2d } from "../../src/utils";
 
 describe("Bounds", () => {
-  it("should calculate the boundary of a shape", () => {
-    const obounds = new Bounds(new OShape());
+  it("O Shape", () => {
+    const shape = new OShape();
+    const matrix = new Matrix(
+      new MatrixString(str2d`A..C
+                             B..D
+                             .EF.`)
+    );
+    shape.bounds?.attachMatrix(matrix);
 
-    expect(obounds.left).toBe(1);
-    expect(obounds.right).toBe(2);
-    expect(obounds.top).toBe(0);
-    expect(obounds.bottom).toBe(1);
+    expect(shape.bounds?.leftOf(shape.pos)).toStrictEqual(["A", "B"]);
+    expect(shape.bounds?.rightOf(shape.pos)).toStrictEqual(["C", "D"]);
+    expect(shape.bounds?.bottomOf(shape.pos)).toStrictEqual(["E", "F"]);
+  });
 
-    const tbounds = new Bounds(new TShape());
+  it("T Shape", () => {
+    const shape = new TShape();
+    const matrix = new Matrix(
+      new MatrixString(str2d`.A.C.
+                             B...D
+                             .EFG.`)
+    );
+    shape.bounds?.attachMatrix(matrix);
 
-    expect(tbounds.left).toBe(0);
-    expect(tbounds.right).toBe(2);
-    expect(tbounds.top).toBe(0);
-    expect(tbounds.bottom).toBe(1);
+    expect(shape.bounds?.leftOf(shape.pos)).toStrictEqual(["A", "B"]);
+    expect(shape.bounds?.rightOf(shape.pos)).toStrictEqual(["C", "D"]);
+    expect(shape.bounds?.bottomOf(shape.pos)).toStrictEqual(["E", "F", "G"]);
+  });
 
-    const ibounds = new Bounds(new IShape());
+  it("I Shape", () => {
+    const shape = new IShape();
+    const matrix = new Matrix(
+      new MatrixString(str2d`A....B
+                             .CDEF.`)
+    );
+    shape.bounds?.attachMatrix(matrix);
+    shape.place(0, -2);
 
-    expect(ibounds.left).toBe(0);
-    expect(ibounds.right).toBe(3);
-    expect(ibounds.top).toBe(2);
-    expect(ibounds.bottom).toBe(2);
+    expect(shape.bounds?.leftOf(shape.pos)).toStrictEqual(["A"]);
+    expect(shape.bounds?.rightOf(shape.pos)).toStrictEqual(["B"]);
+    expect(shape.bounds?.bottomOf(shape.pos)).toStrictEqual([
+      "C",
+      "D",
+      "E",
+      "F",
+    ]);
   });
 });

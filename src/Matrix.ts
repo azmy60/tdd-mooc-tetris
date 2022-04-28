@@ -35,6 +35,11 @@ export class Matrix {
     return this.strings.cols().at(index);
   }
 
+  cell(pos: Vector2) {
+    if (pos.x < 0 || pos.y < 0) return undefined;
+    return this.row(pos.y)?.at(pos.x);
+  }
+
   get width() {
     return this.strings.width;
   }

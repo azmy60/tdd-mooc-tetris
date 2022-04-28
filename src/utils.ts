@@ -9,6 +9,14 @@ export function make2DArray(width: number, height: number, fill?: any) {
   return new Array(height).fill(null).map(() => Array(width).fill(fill));
 }
 
+export function bnd(strings: TemplateStringsArray) {
+  const vectors: Vector2[] = [];
+  str2d(strings).forEach((arr, y) =>
+    arr.forEach((str, x) => str === "+" && vectors.push(vec2(x, y)))
+  );
+  return vectors;
+}
+
 export function mns(strings: TemplateStringsArray) {
   const mino = strings.raw[0].replace(/[\s\.]*/g, "")[0];
   return new Minos(str2d(strings), mino);

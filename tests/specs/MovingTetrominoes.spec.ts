@@ -21,7 +21,7 @@ describe("Moving tetrominoes", () => {
     const board = new Board(Matrix.of(6, 4));
     board.drop(new OShape());
 
-    board.shape?.moveLeft();
+    moveLeft(board.shape, 1);
     expect(board.toString()).toEqualShape(
       `.OO...
        .OO...
@@ -29,7 +29,7 @@ describe("Moving tetrominoes", () => {
        ......`
     );
 
-    board.shape?.moveRight();
+    moveRight(board.shape, 1);
     expect(board.toString()).toEqualShape(
       `..OO..
        ..OO..
@@ -37,7 +37,7 @@ describe("Moving tetrominoes", () => {
        ......`
     );
 
-    board.shape?.moveDown();
+    moveDown(board.shape, 1);
     expect(board.toString()).toEqualShape(
       `......
        ..OO..
@@ -125,18 +125,45 @@ describe("Moving tetrominoes", () => {
     );
     expect(board.shape).toBeFalsy();
 
-    // board.drop(new IShape());
-    // board.moveRight();
-    // board.moveRight();
-    // moveFarDown(board);
-    // expect(board.toString()).toEqualShape(
-    //   `........
-    //    ........
-    //    ........
-    //    ..TIIII.
-    //    .TTTOO..
-    //    OO..OOT.
-    //    OO...TTT`
-    // );
+    board.drop(new IShape());
+    moveRight(board.shape, 1);
+    moveDown(board.shape, 10);
+    expect(board.toString()).toEqualShape(
+      `........
+       ........
+       ........
+       ...IIII.
+       ....OO..
+       OO..OOT.
+       OO...TTT`
+    );
+
+    board.drop(new TShape());
+    moveLeft(board.shape, 10);
+    moveDown(board.shape, 3);
+    moveRight(board.shape, 10);
+    moveDown(board.shape, 10);
+    expect(board.toString()).toEqualShape(
+      `........
+       ........
+       ........
+       ..TIIII.
+       .TTTOO..
+       OO..OOT.
+       OO...TTT`
+    );
+
+    board.drop(new OShape());
+    moveLeft(board.shape, 10);
+    moveDown(board.shape, 10);
+    expect(board.toString()).toEqualShape(
+      `........
+       ........
+       OO......
+       OOTIIII.
+       .TTTOO..
+       OO..OOT.
+       OO...TTT`
+    );
   });
 });
